@@ -15,13 +15,15 @@
       </li>
     </ul>-->
     <md-button-toggle md-single>
-      <md-button @click.native="indexTab('recommend')">个性推荐</md-button>
-      <md-button class="md-toggle" @click.native="indexTab('songlist')">歌单</md-button>
+      <md-button class="md-toggle"  @click.native="indexTab('recommend')">个性推荐</md-button>
+      <md-button @click.native="indexTab('songlist')">歌单</md-button>
       <md-button @click.native="indexTab('radio')">主播电台</md-button>
       <md-button @click.native="indexTab('top')">排行榜</md-button>
     </md-button-toggle>
     <transition :name="transitionName">
-      <router-view class="child-view"></router-view>
+      <keep-alive>
+        <router-view class="child-view"></router-view>
+      </keep-alive>
     </transition>
   </div>
 </template>
@@ -66,7 +68,7 @@
 </script>
 
 <style lang="scss" type="text/scss">
-  @import '../../assets/css/common';
+  @import '../../assets/css/base';
 
   .index-tab {
     display: flex;
@@ -99,12 +101,12 @@
     display: flex;
     .md-button {
       flex: 1;
-      border-bottom: 2px solid #fff;
+      border-bottom: 3px solid #fff;
     }
     .md-toggle {
       color: $baseColor;
       background-color: #fff !important;
-      border-bottom: 2px solid $baseColor;
+      border-bottom: 3px solid $baseColor;
     }
   }
 
@@ -112,11 +114,11 @@
   .child-view {
     position: absolute;
     left:0;
-    top: pr(100);
-    height: 100%;
+    top: pr(85.5);
+    /*height: 100%;*/
     width: 100%;
     transition: all .5s cubic-bezier(.55,0,.1,1);
-    background-color: #f2f2f2;
+    background-color: #fff;
     overflow: auto;
     -webkit-overflow-scrolling: touch;
   }

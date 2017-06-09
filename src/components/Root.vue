@@ -39,6 +39,6 @@
 </script>
 
 <style lang="scss" type="text/scss">
-    @import '../assets/css/common';
+    @import '../assets/css/base';
 
 </style>

@@ -6,6 +6,9 @@ import router from './router'
 import store from './store'
 import VueMaterial from 'vue-material'
 import 'vue-material/dist/vue-material.css'
+import VueAwesomeSwiper from 'vue-awesome-swiper'
+
+Vue.use(VueAwesomeSwiper)
 
 Vue.use(VueMaterial)
 Vue.material.registerTheme({
@@ -18,6 +21,7 @@ Vue.material.registerTheme({
 })
 
 import './assets/css/reset.css'
+import './assets/css/common.css'
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
