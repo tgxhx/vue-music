@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>vue-music</title>
+    <script>
+      !function (n) {
+        var e = n.document,
+          t = e.documentElement,
+          i = 750,
+          d = i / 100,
+          o = "orientationchange" in n ? "orientationchange" : "resize",
+          a = function () {
+            var n = t.clientWidth || 320;
+            n > 750 && (n = 750);
+            t.style.fontSize = n / d + "px"
+          };
+        e.addEventListener && (n.addEventListener(o, a, !1), e.addEventListener("DOMContentLoaded", a, !1))
+      }(window);
+    </script>
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
+    <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+    <style>
+      body {
+        font-size:.32rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+  </body>
+</html>
