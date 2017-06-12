@@ -14,7 +14,7 @@
         <router-link to="/root/index/top">排行榜</router-link>
       </li>
     </ul>-->
-    <md-button-toggle md-single>
+    <md-button-toggle md-single class="index">
       <md-button class="md-toggle"  @click.native="indexTab('recommend')">个性推荐</md-button>
       <md-button @click.native="indexTab('songlist')">歌单</md-button>
       <md-button @click.native="indexTab('radio')">主播电台</md-button>
@@ -97,11 +97,19 @@
     }
   }
 
+  .md-button-toggle.index {
+    position: fixed;
+    top:pr(48);
+    left:0;
+    right:0;
+    z-index:1000;
+  }
   .md-theme-default.md-button-toggle {
     display: flex;
     .md-button {
       flex: 1;
       border-bottom: 3px solid #fff;
+      background-color: #fff;
     }
     .md-toggle {
       color: $baseColor;
@@ -117,7 +125,7 @@
     top: pr(85.5);
     /*height: 100%;*/
     width: 100%;
-    transition: all .5s cubic-bezier(.55,0,.1,1);
+    transition: all .3s cubic-bezier(.55,0,.1,1);
     background-color: #fff;
     overflow: auto;
     -webkit-overflow-scrolling: touch;
@@ -127,23 +135,23 @@
     opacity: 0;
     -webkit-transform: translate(7.5rem, 0);
     transform: translate(7.5rem, 0);
-    transition-delay: .5s;
-    -webkit-transition-delay: .5s;
+    transition-delay: .3s;
+    -webkit-transition-delay: .3s;
   }
   .slide-left-leave-active, .slide-right-enter {
     opacity: 0;
     -webkit-transform: translate(-7.5rem, 0);
     transform: translate(-7.5rem, 0);
-    transition-delay: .5s;
-    -webkit-transition-delay: .5s;
+    transition-delay: .3s;
+    -webkit-transition-delay: .3s;
   }
   .slide-enter-active {
     -webkit-transition: all .3s ease;
     transition: all .3s ease;
   }
   .slide-leave-active {
-    -webkit-transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
-    transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+    -webkit-transition: all .3s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+    transition: all .3s cubic-bezier(1.0, 0.5, 0.8, 1.0);
   }
 
 </style>

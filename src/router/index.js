@@ -9,6 +9,7 @@ import Radio from '../page/index/Radio'
 import Top from '../page/index/Top'
 
 import Home from '../page/home/Home'
+import PlayListDetail from '../page/PlayListDetail'
 
 Vue.use(Router)
 
@@ -51,6 +52,10 @@ export default new Router({
           component: Home
         },
       ]
+    },
+    {
+      path: '/playlistdetail/:id',
+      component: PlayListDetail
     }
   ]
 })

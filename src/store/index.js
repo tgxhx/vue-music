@@ -1,12 +1,17 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import mutations from './mutations'
+import actions from './actions'
 
 Vue.use(Vuex)
 
 const state = {
-  url: 'http://39.108.14.248:3000',
+  curPlaylistDetail: {},
+  curPlayMusic: {}
 }
 
 export default new Vuex.Store({
-  state
+  state,
+  mutations,
+  actions
 })

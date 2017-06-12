@@ -22,6 +22,8 @@ Vue.material.registerTheme({
 
 import './assets/css/reset.css'
 import './assets/css/common.css'
+import 'animate.css'
+
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

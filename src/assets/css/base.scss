@@ -32,10 +32,27 @@ $baseColor: #d33a31;
   height:$w;
 }
 
+@mixin ava($w) {
+  width:$w;
+  height:$w;
+  img {
+    width:100%;
+    height:100%;
+  }
+}
+
 @mixin dfcc() {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+@mixin overhide($n) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: $n;
+  -webkit-box-orient: vertical;
 }
 
 //1px

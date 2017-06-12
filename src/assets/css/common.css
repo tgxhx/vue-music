@@ -4,3 +4,7 @@
   fill: currentColor;
   overflow: hidden;
 }
+
+ul:not(.md-list)>li+li {
+  margin-top:0 !important;
+}
