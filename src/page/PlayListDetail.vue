@@ -122,8 +122,10 @@
 
         axios.all([getUrl(), getDetail(), getLyric()])
           .then(axios.spread((res1, res2, res3) => {
-            const arr = [res1,res2,res3]
+            const arr = [res1, res2, res3]
             this.$store.dispatch('curPlayMusic', arr)
+            this.$store.dispatch('switchPlaying', true)
+            this.$store.state.showPlayer = true
           }))
       },
     },
@@ -268,8 +270,10 @@
         flex-direction: column;
         justify-content: center;
         flex: 1;
+        overflow: hidden;
         .song-name {
           font-size: pr(14);
+          @include ell;
           .song-desc {
             color: $c888;
             font-size: pr(12);
@@ -279,6 +283,7 @@
           margin-top: pr(6);
           color: $c888;
           font-size: pr(10);
+          @include ell;
         }
       }
       .song-option {

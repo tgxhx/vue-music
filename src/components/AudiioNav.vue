@@ -1,12 +1,12 @@
 <template>
   <div class="audio-nav">
-    <audio :src="curPlayMusic.url" id="nav-music" autoplay="autoplay"></audio>
+    <audio :src="curPlayMusic.url" id="nav-music" autoplay="autoplay" ref="nav_music"></audio>
     <div class="nav-music-wrap">
-      <div class="nav-music-img">
+      <div class="nav-music-img" @click="showPlayer">
         <img src="http://p1.music.126.net/t1zXkn0YifMbrs-xjC7Lvg==/109951162945442238.jpg" alt="">
       </div>
       <div class="nav-music-con">
-        <p class="nav-music-name">{{curPlayMusic.detail.name}}</p>
+        <p class="nav-music-name" v-if="curPlayMusic">{{curPlayMusic.detail.name}}</p>
         <p class="nav-music-lyric">给你一张过去的cd</p>
       </div>
     </div>
@@ -29,35 +29,50 @@
   export default {
     data() {
       return {
-        playing: false,
         url: ''
       }
     },
     computed: {
       ...mapState([
-        'curPlayMusic'
+        'curPlayMusic', 'playing'
       ])
     },
     mounted() {
       this.$nextTick(() => {
         this.url = curPlayMusic.url
+        var audioStatus = "paused";
+        var audio = this.$refs.nav_music;
+        audio.addEventListener("playing", function () {
+          audioStatus = "playing";
+          console.log(audioStatus)
+        });
+        audio.addEventListener("pause", function () {
+          audioStatus = "paused";
+          console.log(audioStatus)
+        });
       })
     },
     methods: {
       play() {
         document.getElementById('nav-music').play()
-        this.playing = true
+        this.$store.dispatch('switchPlaying', true)
       },
       pause() {
         document.getElementById('nav-music').pause()
-        this.playing = false
+        this.$store.dispatch('switchPlaying', false)
+      },
+      musicPlaying() {
+        console.log('music playing')
+      },
+      showPlayer() {
+        this.$store.state.showPlayer = true
       }
     },
     filters: {},
     watch: {
       url(val, old) {
         if (val == null) {
-            alert('播放失败，该歌曲需要收费')
+          alert('播放失败，该歌曲需要收费')
         }
       }
     }
@@ -79,6 +94,7 @@
     box-shadow: 0 -2px 8px #ccc;
     padding: pr(6);
     background-color: #fff;
+    z-index: 1000;
     .nav-music-wrap {
       display: flex;
       .nav-music-img {

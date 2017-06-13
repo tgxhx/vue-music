@@ -7,7 +7,9 @@ Vue.use(Vuex)
 
 const state = {
   curPlaylistDetail: {},
-  curPlayMusic: {}
+  curPlayMusic: {},
+  playing: false,
+  showPlayer: false
 }
 
 export default new Vuex.Store({

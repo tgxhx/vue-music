@@ -9,5 +9,8 @@ export default {
   },
   curPlayMusic({commit}, arr) {
     commit(types.CUR_PLAY_MUSIC, arr)
+  },
+  switchPlaying({commit}, status) {
+    commit(types.SWITCH_PLAYING, status)
   }
 }
