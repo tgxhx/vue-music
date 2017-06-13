@@ -1,16 +1,15 @@
 <template>
   <div class="audio-nav">
-    <audio :src="curPlayMusic.url" id="nav-music" autoplay="autoplay" ref="nav_music"></audio>
-    <div class="nav-music-wrap">
-      <div class="nav-music-img" @click="showPlayer">
-        <img src="http://p1.music.126.net/t1zXkn0YifMbrs-xjC7Lvg==/109951162945442238.jpg" alt="">
+    <div class="music-wrap">
+      <div class="music-img" @click="showPlayer">
+        <img :src="curPlayMusic.detail.al.picUrl" alt="">
       </div>
-      <div class="nav-music-con">
-        <p class="nav-music-name" v-if="curPlayMusic">{{curPlayMusic.detail.name}}</p>
-        <p class="nav-music-lyric">给你一张过去的cd</p>
+      <div class="music-con">
+        <p class="music-name" v-if="curPlayMusic">{{curPlayMusic.detail.name}}</p>
+        <p class="music-lyric">给你一张过去的cd</p>
       </div>
     </div>
-    <div class="nav-music-btn">
+    <div class="music-btn">
       <div class="nav-btn-play">
         <i class="iconfont icon-ttpodicon" v-if="!playing" @click="play"></i>
         <i class="iconfont icon-zanting" v-else @click="pause"></i>
@@ -42,11 +41,11 @@
         this.url = curPlayMusic.url
         var audioStatus = "paused";
         var audio = this.$refs.nav_music;
-        audio.addEventListener("playing", function () {
+        audio.addEventListener("onplaying", function () {
           audioStatus = "playing";
           console.log(audioStatus)
         });
-        audio.addEventListener("pause", function () {
+        audio.addEventListener("onpause", function () {
           audioStatus = "paused";
           console.log(audioStatus)
         });
@@ -54,11 +53,11 @@
     },
     methods: {
       play() {
-        document.getElementById('nav-music').play()
+        document.getElementById('music').play()
         this.$store.dispatch('switchPlaying', true)
       },
       pause() {
-        document.getElementById('nav-music').pause()
+        document.getElementById('music').pause()
         this.$store.dispatch('switchPlaying', false)
       },
       musicPlaying() {
@@ -95,15 +94,15 @@
     padding: pr(6);
     background-color: #fff;
     z-index: 1000;
-    .nav-music-wrap {
+    .music-wrap {
       display: flex;
-      .nav-music-img {
+      .music-img {
         width: pr(33);
         img {
           @include wh(100%);
         }
       }
-      .nav-music-con {
+      .music-con {
         margin-left: pr(10);
         margin-top: pr(3);
         p {
@@ -118,7 +117,7 @@
         }
       }
     }
-    .nav-music-btn {
+    .music-btn {
       display: flex;
       align-items: center;
       .nav-btn-play {

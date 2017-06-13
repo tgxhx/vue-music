@@ -34,14 +34,14 @@
           class="iconfont icon-wenjianjia"></i><span>{{playlist.subscribedCount || '收藏'}}</span>
         </div>
         <div class="songlist-op-item"><i
-          class="iconfont icon-huijijiayuanhuifuicon01"></i><span>{{playlist.commentCount || '评论'}}</span>
+          class="iconfont icon-pinglun"></i><span>{{playlist.commentCount || '评论'}}</span>
         </div>
         <div class="songlist-op-item"><i
           class="iconfont icon-icglobaltitlebar48iconfontshare"></i><span>{{playlist.shareCount || '分享'}}</span></div>
         <div class="songlist-op-item"><i class="iconfont icon-download"></i><span>下载</span></div>
       </div>
-      <div class="songlist-bg" ref="songlist_bg" :style="`backgroundImage: url(${this.curPlaylistDetail.picUrl});background-size: 100% 100%;
-           background-repeat: no-repeat;filter: blur(20px)`"></div>
+      <div class="songlist-bg" ref="songlist_bg"
+           :style="`backgroundImage: url(${this.curPlaylistDetail.picUrl});`"></div>
     </div>
     <div class="song-list">
       <div class="play-bar">
@@ -74,7 +74,7 @@
   export default {
     data() {
       return {
-        playlist: {}
+        playlist: {},
       }
     },
     computed: {
@@ -230,6 +230,9 @@
       width: 100%;
       height: 100%;
       z-index: -1;
+      background-size: 100% 100%;
+      background-repeat: no-repeat;
+      filter: blur(35px)
     }
   }
 

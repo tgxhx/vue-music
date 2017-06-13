@@ -1,39 +1,53 @@
 <template>
-  <div class="player animated fadeIn" v-show="showPlayer">
-    <md-toolbar class="md-dense player-bar">
-      <md-button class="md-icon-button">
-        <md-icon @click.native="back">arrow_back</md-icon>
-      </md-button>
-      <h2 class="md-title" style="flex: 1">因为爱情<br/><span>王菲</span></h2>
-      <md-button class="md-icon-button">
-        <md-icon>share</md-icon>
-      </md-button>
-    </md-toolbar>
-    <div class="record-cover">
-      <div class="record-bg rotate-bg animated slideInRight">
-        <div class="music-bg">
-          <img src="http://p1.music.126.net/y1JN20Yevr4e8j75QeWtQA==/1771313232347170.jpg" alt="">
+  <div class="player animated fadeIn" :class="{show: showPlayer}">
+    <audio :src="curPlayMusic.url" id="music" autoplay="autoplay" ref="audio"></audio>
+    <div class="player-wrap">
+      <md-toolbar class="md-dense player-header">
+        <md-button class="md-icon-button">
+          <md-icon @click.native="back">arrow_back</md-icon>
+        </md-button>
+        <h2 class="md-title" style="flex: 1">{{curPlayMusic.detail.name}}<br/><span v-for="(item,index) in curPlayMusic.detail.ar">{{item.name}}/</span></h2>
+        <md-button class="md-icon-button">
+          <md-icon>share</md-icon>
+        </md-button>
+      </md-toolbar>
+      <div class="player-panel1">
+        <div class="player-line"></div>
+        <div class="record-cover">
+          <div class="record-bg rotate-bg animated slideInRight">
+            <div class="music-bg">
+              <img :src="curPlayMusic.detail.al.picUrl" alt="">
+            </div>
+          </div>
+        </div>
+        <div class="player-bar">
+          <div class="bar-item"><i class="iconfont icon-like"></i></div>
+          <div class="bar-item"><i class="iconfont icon-download"></i></div>
+          <div class="bar-item"><i class="iconfont icon-pinglun"></i><span class="comment-total">{{11111 | commentTotalFormat}}</span></div>
+          <div class="bar-item"><i class="iconfont icon-more1170511easyiconnet"></i></div>
+        </div>
+      </div>
+      <div class="player-ctrl">
+        <div class="progress">
+          <span>{{currentTime | timeFormat}}</span>
+          <div class="progress-bar">
+            <div class="cur-progress" :style="`width:${curProgress}`"></div>
+          </div>
+          <span>{{allTime | timeFormat}}</span>
+        </div>
+        <div class="player-conctrl">
+          <div class="play-mode"><i class="iconfont icon-suijibofang"></i></div>
+          <div class="prev"><i class="iconfont icon-shangyishou1"></i></div>
+          <div class="ctrl">
+            <i class="iconfont icon-iconfontplay" v-if="!playing" @click="play"></i>
+            <i class="iconfont icon-zanting" v-else @click="pause"></i>
+          </div>
+          <div class="next"><i class="iconfont icon-xiayishou1"></i></div>
+          <div class="play-list"><i class="iconfont icon-liebiao"></i></div>
         </div>
       </div>
     </div>
-    <div class="player-ctrl">
-      <div class="progress">
-        <span>00:00</span>
-        <div class="progress-bar"></div>
-        <span>04:00</span>
-      </div>
-      <div class="player-conctrl">
-        <div class="play-mode"><i class="iconfont icon-suijibofang"></i></div>
-        <div class="prev"><i class="iconfont icon-shangyishou1"></i></div>
-        <div class="ctrl">
-          <i class="iconfont icon-iconfontplay" v-if="playing" @click="play"></i>
-          <i class="iconfont icon-zanting" v-else @click="pause"></i>
-        </div>
-        <div class="next"><i class="iconfont icon-xiayishou1"></i></div>
-        <div class="play-list"><i class="iconfont icon-liebiao"></i></div>
-      </div>
-    </div>
-    <div class="player-bg"></div>
+    <div class="player-bg" :style="`backgroundImage:url(${curPlayMusic.detail.al.picUrl})`"></div>
   </div>
 </template>
 
@@ -43,32 +57,68 @@
 
   export default {
     data() {
-      return {}
+      return {
+        curProgress: '0',
+        timer: null,
+        currentTime: 0,
+        allTime: 0
+      }
     },
     computed: {
       ...mapState([
-        'playing','showPlayer'
+        'playing', 'showPlayer', 'curPlayMusic'
       ])
     },
     mounted() {
       this.$nextTick(() => {
-
       })
     },
     methods: {
       play() {
-        document.getElementById('nav-music').play()
+        this.$refs.audio.play()
+        this.timeProgress()
         this.$store.dispatch('switchPlaying', true)
       },
       pause() {
-        document.getElementById('nav-music').pause()
+        this.$refs.audio.pause()
+        clearInterval(this.timer)
         this.$store.dispatch('switchPlaying', false)
+      },
+      timeProgress() {
+        this.timer = setInterval(() => {
+          const audioid = document.getElementById('music')
+          this.curProgress = ((audioid.currentTime / audioid.duration) * document.querySelector('.progress-bar').offsetWidth) + 'px'
+          this.currentTime = audioid.currentTime
+          this.allTime = audioid.duration
+        }, 1000)
       },
       back() {
         this.$store.state.showPlayer = false
       }
     },
-    filters: {},
+    filters: {
+      timeFormat(value) {
+        let min = parseInt(value / 60)
+        let sec = parseInt(value % 60)
+        min = min < 10 ? '0' + min : min
+        sec = sec < 10 ? '0' + sec : sec
+        return min + ':' + sec
+      },
+      commentTotalFormat(value) {
+        if (parseInt(value) >= 1000) {
+            return '999+'
+        } else {
+          return value
+        }
+      }
+    },
+    watch: {
+      playing(val, old) {
+        if (val) {
+          this.play()
+        }
+      }
+    }
   }
 </script>
 
@@ -78,68 +128,133 @@
   .player {
     position: fixed;
     left: 0;
-    top: 0;
-    bottom: 0;
+    bottom: -2000px;
     right: 0;
     background-color: #fff;
     z-index: 1001;
+    &.show {
+      top: 0;
+      bottom: 0;
+    }
     &.animated {
       -webkit-animation-duration: .1s;
       -moz-animation-duration: .1s;
       -o-animation-duration: .1s;
       animation-duration: .1s;
     }
+    .player-wrap {
+      z-index: 1002;
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+    }
   }
 
-  .player-bar {
+  .player-header {
+    height: pr(56);
     background-color: transparent !important;
     h2 {
-      line-height:1.1;
-      font-size:pr(16) !important;
+      line-height: 1.1;
+      font-size: pr(16) !important;
       span {
-        font-size:pr(12);
+        color:#ccc;
+        font-size: pr(12);
       }
     }
   }
 
-  .record-cover {
-    @include wh(pr(250));
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-    left:50%;
-    top:40%;
-    border-radius: 50%;
-    transform: translate(-50%,-50%);
-    background-color: rgba(255,255,255,.2);
-    .record-bg {
-      @include wh(pr(246));
+  .player-panel1 {
+    position: relative;
+    height:pr(500);
+    .player-line {
+      height: 1px;
+      background-image: -webkit-linear-gradient(
+          to right,
+          rgba(0, 0, 0, 0),
+          rgba(255, 255, 255, .3),
+          rgba(0, 0, 0, 0)
+      );
+      background-image: linear-gradient(
+          to right,
+          rgba(0, 0, 0, 0),
+          rgba(255, 255, 255, .3),
+          rgba(0, 0, 0, 0)
+      );
+    }
+
+    .record-cover {
+      @include wh(pr(250));
       display: flex;
       justify-content: center;
       align-items: center;
-      background-image: url("../assets/images/record-bg.png");
-      background-size: 100% 100%;
-      &.rotate-bg {
-        animation: rotatebg 20s linear infinite;
+      position: absolute;
+      left: 50%;
+      top: pr(80);
+      border-radius: 50%;
+      transform: translate(-50%, 0);
+      background-color: rgba(255, 255, 255, .2);
+      .record-bg {
+        @include wh(pr(246));
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-image: url("../assets/images/record-bg.png");
+        background-size: 100% 100%;
+        &.rotate-bg {
+          animation: rotatebg 20s linear infinite;
+        }
+        @keyframes rotatebg {
+          0% {
+            transform: rotate(0deg);
+          }
+          50% {
+            transform: rotate(180deg);
+          }
+          100% {
+            transform: rotate(360deg);
+          }
+        }
+        .music-bg {
+          @include wh(pr(168));
+          border-radius: 50%;
+          overflow: hidden;
+          img {
+            @include wh(100%);
+          }
+        }
       }
-      @keyframes rotatebg {
-        0% {
-          transform: rotate(0deg);
-        }
-        50% {
-          transform: rotate(180deg);
-        }
-        100% {
-          transform: rotate(360deg);
+    }
+
+    .player-bar {
+      position: absolute;
+      left:50%;
+      bottom:pr(10);
+      transform: translate(-50%,0);
+      display: flex;
+      width:70%;
+      justify-content:space-around;
+      color:#fff;
+      .bar-item:nth-child(3) {
+        position: relative;
+        .comment-total {
+          position: absolute;
+          top:pr(-5);
+          right:pr(-12);
+          font-size:pr(8);
+          width:pr(21.5);
+          height:pr(10);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background-color: rgba(0,0,0,.1);
         }
       }
-      .music-bg {
-        @include wh(pr(168));
-        border-radius: 50%;
-        overflow: hidden;
-        img {
-          @include wh(100%);
+      .iconfont {
+        font-size:pr(18);
+        &:nth-child(2) {
+          font-size:pr(20);
         }
       }
     }
@@ -147,47 +262,56 @@
 
   .player-ctrl {
     position: absolute;
-    left:0;
-    bottom:0;
-    right:0;
-    height:pr(110);
-    color:#fff;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    height: pr(110);
+    color: #fff;
     background-color: transparent;
     .progress {
       display: flex;
       align-items: center;
-      padding:0 pr(19);
-      margin-top:pr(15);
+      padding: 0 pr(19);
+      margin-top: pr(15);
       span {
-        font-size:pr(10);
+        font-size: pr(10);
       }
       .progress-bar {
-        flex:1;
-        margin:0 pr(5);
-        height:pr(3);
+        flex: 1;
+        margin: 0 pr(5);
+        height: pr(2);
         background-color: #9f9f9f;
+        .cur-progress {
+          width: 50%;
+          height: 100%;
+          background-color: $baseColor;
+        }
       }
     }
     .player-conctrl {
-      margin-top:pr(22);
-      padding:0 pr(15);
+      margin-top: pr(22);
+      padding: 0 pr(15);
       display: flex;
       align-items: center;
-      justify-content:space-around;
+      justify-content: space-around;
       > div i {
-        font-size:pr(20);
+        font-size: pr(20);
       }
       .ctrl {
         display: flex;
         justify-content: center;
         align-items: center;
         @include wh(pr(40));
-        border:1px solid #fff;
+        border: 1px solid #fff;
         border-radius: 50%;
         i {
-          margin-top:pr(3);
-          margin-left:pr(3);
-          font-size:pr(18);
+          margin-top: pr(3);
+          margin-left: pr(3);
+          font-size: pr(18);
+          &.icon-zanting {
+            margin-top: 0;
+            margin-left: 0;
+          }
         }
       }
     }
@@ -195,14 +319,14 @@
 
   .player-bg {
     position: absolute;
-    left:0;
-    top:0;
-    width: 100%;
-    height: 100%;
-    z-index:-1;
+    left: -30%;
+    top: -30%;
+    width: 180%;
+    height: 180%;
+    z-index: 1001;
     background-image: url("http://p1.music.126.net/y1JN20Yevr4e8j75QeWtQA==/1771313232347170.jpg");
     background-repeat: no-repeat;
     background-size: 100% 100%;
-    filter: blur(80px);
+    filter: blur(70px) brightness(70%);
   }
 </style>
