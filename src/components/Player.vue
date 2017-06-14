@@ -1,12 +1,19 @@
 <template>
   <div class="player animated fadeIn" :class="{show: showPlayer}">
-    <audio :src="curPlayMusic.url" id="music" autoplay="autoplay" ref="audio"></audio>
+    <audio :src="curPlayMusic.url"
+           id="music"
+           autoplay="autoplay"
+           ref="audio"
+           @timeupdate="timeProgress"
+           @ended="ended"
+           @play="startPlay"></audio>
     <div class="player-wrap">
       <md-toolbar class="md-dense player-header">
         <md-button class="md-icon-button">
           <md-icon @click.native="back">arrow_back</md-icon>
         </md-button>
-        <h2 class="md-title" style="flex: 1">{{curPlayMusic.detail.name}}<br/><span v-for="(item,index) in curPlayMusic.detail.ar">{{item.name}}/</span></h2>
+        <h2 class="md-title" style="flex: 1">{{curPlayMusic.detail.name}}<br/><span
+          v-for="(item,index) in curPlayMusic.detail.ar">{{item.name}}/</span></h2>
         <md-button class="md-icon-button">
           <md-icon>share</md-icon>
         </md-button>
@@ -23,15 +30,22 @@
         <div class="player-bar">
           <div class="bar-item"><i class="iconfont icon-like"></i></div>
           <div class="bar-item"><i class="iconfont icon-download"></i></div>
-          <div class="bar-item"><i class="iconfont icon-pinglun"></i><span class="comment-total">{{11111 | commentTotalFormat}}</span></div>
+          <div class="bar-item"><i class="iconfont icon-pinglun"></i><span
+            class="comment-total">{{11111 | commentTotalFormat}}</span></div>
           <div class="bar-item"><i class="iconfont icon-more1170511easyiconnet"></i></div>
         </div>
+      </div>
+      <div class="player-panel2">
+        <ul ref="lyric_wrap">
+          <li v-for="(value,key) in lyric">{{value}}</li>
+        </ul>
       </div>
       <div class="player-ctrl">
         <div class="progress">
           <span>{{currentTime | timeFormat}}</span>
           <div class="progress-bar">
             <div class="cur-progress" :style="`width:${curProgress}`"></div>
+            <div class="idot" :style="`left:${curIdot}`"></div>
           </div>
           <span>{{allTime | timeFormat}}</span>
         </div>
@@ -54,6 +68,8 @@
 <script type="text/ecmascript-6">
   import axios from 'axios'
   import {mapState} from 'vuex'
+  import {mapGetters} from 'vuex'
+
 
   export default {
     data() {
@@ -61,13 +77,22 @@
         curProgress: '0',
         timer: null,
         currentTime: 0,
-        allTime: 0
+        allTime: 0,
+        curIdot: 0,
+        parsed: {},
+        marginTop: 0
       }
     },
     computed: {
       ...mapState([
         'playing', 'showPlayer', 'curPlayMusic'
-      ])
+      ]),
+      /*...mapGetters([
+       'lyric'
+       ]),*/
+      lyric() {
+        return this.parseLrc(this.$store.state.curPlayMusic.lrc.lyric)
+      }
     },
     mounted() {
       this.$nextTick(() => {
@@ -76,24 +101,93 @@
     methods: {
       play() {
         this.$refs.audio.play()
-        this.timeProgress()
+//        this.timeProgress()
         this.$store.dispatch('switchPlaying', true)
+//        console.log(this.$store.state.playing)
       },
       pause() {
         this.$refs.audio.pause()
         clearInterval(this.timer)
         this.$store.dispatch('switchPlaying', false)
+//        console.log(this.$store.state.playing)
       },
       timeProgress() {
-        this.timer = setInterval(() => {
-          const audioid = document.getElementById('music')
-          this.curProgress = ((audioid.currentTime / audioid.duration) * document.querySelector('.progress-bar').offsetWidth) + 'px'
-          this.currentTime = audioid.currentTime
-          this.allTime = audioid.duration
-        }, 1000)
+        /*this.timer = setInterval(() => {*/
+        const audioid = document.getElementById('music')
+        this.curProgress = ((audioid.currentTime / audioid.duration) * document.querySelector('.progress-bar').offsetWidth) + 'px'
+        this.curIdot = ((audioid.currentTime / audioid.duration) * document.querySelector('.progress-bar').offsetWidth - 13) + 'px'
+        this.currentTime = audioid.currentTime
+        this.allTime = audioid.duration
+        /*}, 1000)*/
+
+        this.updateLyric(audioid)
+      },
+      startPlay() {
+        console.log('start')
+        this.setParsed()
+      },
+      ended() {
+        this.$store.dispatch('switchPlaying', false)
+      },
+      setParsed() {
+        let i = 0
+        var lyricLineHeight = 27,
+          offset = this.$refs.lyric_wrap.offsetHeight * 0.4
+        for (let k in this.lyric) {
+          this.parsed[k] = {
+            index: i++,
+            text: this.lyric[k],
+            top: i * lyricLineHeight - offset
+          }
+        }
+        console.log(this.parsed)
       },
       back() {
         this.$store.state.showPlayer = false
+      },
+      parseLrc(lrc) {
+        var lyrics = lrc.split("\n");
+        var lrcObj = {};
+        for (var i = 0; i < lyrics.length; i++) {
+          var lyric = decodeURIComponent(lyrics[i]);
+          var timeReg = /\[\d*:\d*((\.|\:)\d*)*\]/g;
+          var timeRegExpArr = lyric.match(timeReg);
+          if (!timeRegExpArr)continue;
+          var clause = lyric.replace(timeReg, '');
+          for (var k = 0, h = timeRegExpArr.length; k < h; k++) {
+            var t = timeRegExpArr[k];
+            var min = Number(String(t.match(/\[\d*/i)).slice(1)),
+              sec = Number(String(t.match(/\:\d*/i)).slice(1));
+            var time = min * 60 + sec;
+            lrcObj[time] = clause;
+          }
+        }
+        return lrcObj;
+      },
+      updateLyric(audioid) {
+        var text_temp;
+        var data = this.parsed
+        if (!data) return;
+        let currentTime = Math.round(audioid.currentTime)
+        var lrc = data[currentTime];
+        if (!lrc)return;
+        var text = lrc.text
+        if (text != text_temp) {
+//          locationLrc(lrc);
+          var top = Math.min(0, -lrc.top);
+          this.marginTop = top
+          console.log(this.marginTop)
+          text_temp = text;
+        }
+
+        var _this = this
+
+        function locationLrc(lrc) {
+          var top = Math.min(0, -lrc.top);
+          //lyric.css({"-webkit-transform":"translate(0,-"+lrc.top+"px)"});
+          _this.marginTop = top
+//          document.querySelector('.lyric_wrap').style.marginTop = top + 'px'
+        }
       }
     },
     filters: {
@@ -106,7 +200,7 @@
       },
       commentTotalFormat(value) {
         if (parseInt(value) >= 1000) {
-            return '999+'
+          return '999+'
         } else {
           return value
         }
@@ -115,7 +209,9 @@
     watch: {
       playing(val, old) {
         if (val) {
-          this.play()
+          console.log(this.$store.state.curPlayMusic)
+        } else {
+          console.log(this.playing)
         }
       }
     }
@@ -159,15 +255,19 @@
       line-height: 1.1;
       font-size: pr(16) !important;
       span {
-        color:#ccc;
+        color: #ccc;
         font-size: pr(12);
       }
     }
   }
 
   .player-panel1 {
-    position: relative;
-    height:pr(500);
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: pr(56);
+    bottom: pr(110);
+    display: none;
     .player-line {
       height: 1px;
       background-image: -webkit-linear-gradient(
@@ -229,33 +329,52 @@
 
     .player-bar {
       position: absolute;
-      left:50%;
-      bottom:pr(10);
-      transform: translate(-50%,0);
+      left: 50%;
+      bottom: pr(10);
+      transform: translate(-50%, 0);
       display: flex;
-      width:70%;
-      justify-content:space-around;
-      color:#fff;
+      width: 70%;
+      justify-content: space-around;
+      color: #fff;
       .bar-item:nth-child(3) {
         position: relative;
         .comment-total {
           position: absolute;
-          top:pr(-5);
-          right:pr(-12);
-          font-size:pr(8);
-          width:pr(21.5);
-          height:pr(10);
+          top: pr(-5);
+          right: pr(-12);
+          font-size: pr(8);
+          width: pr(21.5);
+          height: pr(10);
           display: flex;
           justify-content: center;
           align-items: center;
-          background-color: rgba(0,0,0,.1);
+          background-color: rgba(0, 0, 0, .1);
         }
       }
       .iconfont {
-        font-size:pr(18);
+        font-size: pr(18);
         &:nth-child(2) {
-          font-size:pr(20);
+          font-size: pr(20);
         }
+      }
+    }
+  }
+
+  .player-panel2 {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: pr(56);
+    bottom: pr(110);
+    color: #fff;
+    overflow: hidden;
+    ul {
+      padding-top: 50%;
+      li {
+        font-size: pr(14);
+        padding: pr(10) 0;
+        text-align: center;
+        color: #ccc;
       }
     }
   }
@@ -274,7 +393,7 @@
       padding: 0 pr(19);
       margin-top: pr(15);
       span {
-        font-size: pr(10);
+        font-size: pr(8);
       }
       .progress-bar {
         flex: 1;
@@ -285,6 +404,13 @@
           width: 50%;
           height: 100%;
           background-color: $baseColor;
+        }
+        .idot {
+          position: relative;
+          @include wh(13px);
+          border-radius: 50%;
+          background-color: #fff;
+          top: pr(-8);
         }
       }
     }

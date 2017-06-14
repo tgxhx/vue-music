@@ -122,7 +122,7 @@
   .child-view {
     position: absolute;
     left:0;
-    top: pr(85.5);
+    top: pr(84);
     /*height: 100%;*/
     width: 100%;
     transition: all .3s cubic-bezier(.55,0,.1,1);

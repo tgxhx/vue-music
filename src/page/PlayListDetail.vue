@@ -275,6 +275,7 @@
         flex: 1;
         overflow: hidden;
         .song-name {
+          line-height:1.2;
           font-size: pr(14);
           @include ell;
           .song-desc {
@@ -283,7 +284,8 @@
           }
         }
         .song-singer {
-          margin-top: pr(6);
+          line-height:1.2;
+          margin-top: pr(3);
           color: $c888;
           font-size: pr(10);
           @include ell;
