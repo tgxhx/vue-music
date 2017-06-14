@@ -36,8 +36,8 @@
         </div>
       </div>
       <div class="player-panel2">
-        <ul ref="lyric_wrap">
-          <li v-for="(value,key) in lyric">{{value}}</li>
+        <ul ref="lyric_wrap" :style="`marginTop: ${marginTop}px`">
+          <li v-for="(value,key) in lyric">{{value}}{{key}}</li>
         </ul>
       </div>
       <div class="player-ctrl">
@@ -122,6 +122,31 @@
 
         this.updateLyric(audioid)
       },
+      updateLyric(audioid) {
+        var text_temp;
+        var data = this.parsed
+        if (!data) return;
+        let currentTime = Math.round(audioid.currentTime)
+        var lrc = data[currentTime];
+        if (!lrc)return;
+        var text = lrc.text
+        if (text != text_temp) {
+//          locationLrc(lrc);
+          var top = Math.min(0, -lrc.top);
+          this.marginTop = top
+          console.log(this.marginTop)
+          text_temp = text;
+        }
+
+        var _this = this
+
+        function locationLrc(lrc) {
+          var top = Math.min(0, -lrc.top);
+          //lyric.css({"-webkit-transform":"translate(0,-"+lrc.top+"px)"});
+          _this.marginTop = top
+//          document.querySelector('.lyric_wrap').style.marginTop = top + 'px'
+        }
+      },
       startPlay() {
         console.log('start')
         this.setParsed()
@@ -132,7 +157,7 @@
       setParsed() {
         let i = 0
         var lyricLineHeight = 27,
-          offset = this.$refs.lyric_wrap.offsetHeight * 0.4
+          offset = 32
         for (let k in this.lyric) {
           this.parsed[k] = {
             index: i++,
@@ -164,31 +189,6 @@
         }
         return lrcObj;
       },
-      updateLyric(audioid) {
-        var text_temp;
-        var data = this.parsed
-        if (!data) return;
-        let currentTime = Math.round(audioid.currentTime)
-        var lrc = data[currentTime];
-        if (!lrc)return;
-        var text = lrc.text
-        if (text != text_temp) {
-//          locationLrc(lrc);
-          var top = Math.min(0, -lrc.top);
-          this.marginTop = top
-          console.log(this.marginTop)
-          text_temp = text;
-        }
-
-        var _this = this
-
-        function locationLrc(lrc) {
-          var top = Math.min(0, -lrc.top);
-          //lyric.css({"-webkit-transform":"translate(0,-"+lrc.top+"px)"});
-          _this.marginTop = top
-//          document.querySelector('.lyric_wrap').style.marginTop = top + 'px'
-        }
-      }
     },
     filters: {
       timeFormat(value) {
@@ -370,6 +370,7 @@
     overflow: hidden;
     ul {
       padding-top: 50%;
+      transition: all .5s;
       li {
         font-size: pr(14);
         padding: pr(10) 0;

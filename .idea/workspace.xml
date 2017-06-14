@@ -2,14 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="69678b5c-76fb-427d-ab21-98c13d96e52a" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/store/getters.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/assets/js/api.js" afterPath="$PROJECT_DIR$/src/assets/js/api.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/Player.vue" afterPath="$PROJECT_DIR$/src/components/Player.vue" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/page/Index/Index.vue" afterPath="$PROJECT_DIR$/src/page/Index/Index.vue" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/page/PlayListDetail.vue" afterPath="$PROJECT_DIR$/src/page/PlayListDetail.vue" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/store/index.js" afterPath="$PROJECT_DIR$/src/store/index.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/store/mutations.js" afterPath="$PROJECT_DIR$/src/store/mutations.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -104,17 +98,17 @@
           <file leaf-file-name="Player.vue" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/components/Player.vue">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="440">
-                  <caret line="38" column="27" lean-forward="false" selection-start-line="38" selection-start-column="17" selection-end-line="38" selection-end-column="27" />
+                <state relative-caret-position="198">
+                  <caret line="39" column="58" lean-forward="false" selection-start-line="39" selection-start-column="58" selection-end-line="39" selection-end-column="58" />
                   <folding>
                     <element signature="n#style#0;n#h2#0;n#md-toolbar#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
-                    <element signature="e#2831#2856#0" expanded="true" />
-                    <element signature="e#7926#10202#0" expanded="false" />
-                    <element signature="e#8053#8407#0" expanded="false" />
-                    <element signature="e#8427#9459#0" expanded="false" />
-                    <element signature="e#9285#9445#0" expanded="false" />
-                    <element signature="e#9477#10198#0" expanded="false" />
-                    <element signature="e#10979#11076#0" expanded="false" />
+                    <element signature="e#2875#2900#0" expanded="true" />
+                    <element signature="e#7933#10209#0" expanded="false" />
+                    <element signature="e#8060#8414#0" expanded="false" />
+                    <element signature="e#8434#9466#0" expanded="false" />
+                    <element signature="e#9292#9452#0" expanded="false" />
+                    <element signature="e#9484#10205#0" expanded="false" />
+                    <element signature="e#11013#11110#0" expanded="false" />
                   </folding>
                 </state>
               </provider>
@@ -153,17 +147,17 @@
           <file leaf-file-name="Player.vue" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/components/Player.vue">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1194">
-                  <caret line="178" column="36" lean-forward="false" selection-start-line="178" selection-start-column="36" selection-end-line="178" selection-end-column="36" />
+                <state relative-caret-position="407">
+                  <caret line="372" column="24" lean-forward="false" selection-start-line="372" selection-start-column="24" selection-end-line="372" selection-end-column="24" />
                   <folding>
                     <element signature="n#style#0;n#h2#0;n#md-toolbar#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
-                    <element signature="e#2831#2856#0" expanded="true" />
-                    <element signature="e#7926#10202#0" expanded="false" />
-                    <element signature="e#8053#8407#0" expanded="false" />
-                    <element signature="e#8427#9459#0" expanded="false" />
-                    <element signature="e#9285#9445#0" expanded="false" />
-                    <element signature="e#9477#10198#0" expanded="false" />
-                    <element signature="e#10979#11076#0" expanded="false" />
+                    <element signature="e#2875#2900#0" expanded="true" />
+                    <element signature="e#7933#10209#0" expanded="false" />
+                    <element signature="e#8060#8414#0" expanded="false" />
+                    <element signature="e#8434#9466#0" expanded="false" />
+                    <element signature="e#9292#9452#0" expanded="false" />
+                    <element signature="e#9484#10205#0" expanded="false" />
+                    <element signature="e#11013#11110#0" expanded="false" />
                   </folding>
                 </state>
               </provider>
@@ -305,8 +299,8 @@
         <option value="$PROJECT_DIR$/src/page/Index/Index.vue" />
         <option value="$PROJECT_DIR$/src/store/index.js" />
         <option value="$PROJECT_DIR$/src/store/getters.js" />
-        <option value="$PROJECT_DIR$/src/components/Player.vue" />
         <option value="$PROJECT_DIR$/src/store/mutations.js" />
+        <option value="$PROJECT_DIR$/src/components/Player.vue" />
       </list>
     </option>
   </component>
@@ -664,7 +658,7 @@
       <workItem from="1497153198712" duration="96000" />
       <workItem from="1497153340420" duration="28444000" />
       <workItem from="1497228546062" duration="749000" />
-      <workItem from="1497451349980" duration="2633000" />
+      <workItem from="1497451349980" duration="3874000" />
     </task>
     <task id="LOCAL-00001" summary="推荐banner、私人fm、小标题组件">
       <created>1497023306139</created>
@@ -694,11 +688,18 @@
       <option name="project" value="LOCAL" />
       <updated>1497368369696</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="增加歌词">
+      <created>1497454015461</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1497454015461</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="116453000" />
+    <option name="totallyTimeSpent" value="117694000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -717,10 +718,10 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32936078" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32936078" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.329718" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.329718" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21583514" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21583514" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -788,7 +789,8 @@
     <MESSAGE value="歌单详情、播放导航" />
     <MESSAGE value="播放组件" />
     <MESSAGE value="修改播放组件，增加进度条" />
-    <option name="LAST_COMMIT_MESSAGE" value="修改播放组件，增加进度条" />
+    <MESSAGE value="增加歌词" />
+    <option name="LAST_COMMIT_MESSAGE" value="增加歌词" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1028,8 +1030,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/AudiioNav.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="88">
-          <caret line="4" column="49" lean-forward="false" selection-start-line="4" selection-start-column="49" selection-end-line="4" selection-end-column="49" />
+        <state relative-caret-position="440">
+          <caret line="20" column="8" lean-forward="false" selection-start-line="20" selection-start-column="8" selection-end-line="20" selection-end-column="8" />
           <folding>
             <element signature="e#750#775#0" expanded="true" />
           </folding>
@@ -1136,17 +1138,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/Player.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1194">
-          <caret line="178" column="36" lean-forward="false" selection-start-line="178" selection-start-column="36" selection-end-line="178" selection-end-column="36" />
+        <state relative-caret-position="198">
+          <caret line="39" column="58" lean-forward="false" selection-start-line="39" selection-start-column="58" selection-end-line="39" selection-end-column="58" />
           <folding>
             <element signature="n#style#0;n#h2#0;n#md-toolbar#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="e#2831#2856#0" expanded="true" />
-            <element signature="e#7926#10202#0" expanded="false" />
-            <element signature="e#8053#8407#0" expanded="false" />
-            <element signature="e#8427#9459#0" expanded="false" />
-            <element signature="e#9285#9445#0" expanded="false" />
-            <element signature="e#9477#10198#0" expanded="false" />
-            <element signature="e#10979#11076#0" expanded="false" />
+            <element signature="e#2875#2900#0" expanded="true" />
+            <element signature="e#7933#10209#0" expanded="false" />
+            <element signature="e#8060#8414#0" expanded="false" />
+            <element signature="e#8434#9466#0" expanded="false" />
+            <element signature="e#9292#9452#0" expanded="false" />
+            <element signature="e#9484#10205#0" expanded="false" />
+            <element signature="e#11013#11110#0" expanded="false" />
           </folding>
         </state>
       </provider>
