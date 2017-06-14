@@ -36,8 +36,8 @@
         </div>
       </div>
       <div class="player-panel2">
-        <ul ref="lyric_wrap" :style="`marginTop: ${marginTop}px`">
-          <li v-for="(value,key) in lyric">{{value}}{{key}}</li>
+        <ul ref="lyric_wrap" class="lyric-wrap" :style="`transform: translateY(${marginTop}px)`">
+          <li v-for="(value,key) in lyric">{{value}}</li>
         </ul>
       </div>
       <div class="player-ctrl">
@@ -132,6 +132,10 @@
         var text = lrc.text
         if (text != text_temp) {
 //          locationLrc(lrc);
+          document.querySelectorAll('.lyric-wrap .on').forEach((v,i) => {
+              v.classList.remove('on')
+          })
+          document.querySelector('.lyric-wrap').querySelectorAll('li:nth-child(' + (lrc.index + 1) + ')')[0].classList.add('on')
           var top = Math.min(0, -lrc.top);
           this.marginTop = top
           console.log(this.marginTop)
@@ -162,7 +166,7 @@
           this.parsed[k] = {
             index: i++,
             text: this.lyric[k],
-            top: i * lyricLineHeight - offset
+            top: (i * lyricLineHeight - offset ) * 0.8
           }
         }
         console.log(this.parsed)
@@ -370,12 +374,15 @@
     overflow: hidden;
     ul {
       padding-top: 50%;
-      transition: all .5s;
+      transition: all .8s;
       li {
         font-size: pr(14);
         padding: pr(10) 0;
         text-align: center;
         color: #ccc;
+        &.on {
+          color: #fff;
+        }
       }
     }
   }
