@@ -18,5 +18,14 @@ export default {
   },
   [types.SWITCH_PLAYING](state, status) {
     state.playing = status
+  },
+  [types.SHOW_CUR_LYRIC](state, lyric) {
+    state.curLyric = lyric
+  },
+  [types.SHOW_PLAY_LIST](state, status) {
+    state.showPlayList = status
+  },
+  [types.PLAY_LIST](state, arr) {
+    state.playList = arr
   }
 }

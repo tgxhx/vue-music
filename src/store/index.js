@@ -10,7 +10,10 @@ const state = {
   curPlaylistDetail: {},
   curPlayMusic: {},
   playing: false,
-  showPlayer: false
+  showPlayer: false,
+  curLyric: '',
+  showPlayList: true,
+  playList: []
 }
 
 export default new Vuex.Store({

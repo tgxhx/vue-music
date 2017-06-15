@@ -12,5 +12,14 @@ export default {
   },
   switchPlaying({commit}, status) {
     commit(types.SWITCH_PLAYING, status)
+  },
+  showCurLyric({commit}, lyric) {
+    commit(types.SHOW_CUR_LYRIC, lyric)
+  },
+  showPlayList({commit}, status) {
+    commit(types.SHOW_PLAY_LIST, status)
+  },
+  playList({commit}, arr) {
+    commit(types.PLAY_LIST, arr)
   }
 }
