@@ -2,17 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="69678b5c-76fb-427d-ab21-98c13d96e52a" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/components/Cover.vue" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/components/PlayList.vue" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/App.vue" afterPath="$PROJECT_DIR$/src/App.vue" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/AudiioNav.vue" afterPath="$PROJECT_DIR$/src/components/AudiioNav.vue" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/Player.vue" afterPath="$PROJECT_DIR$/src/components/Player.vue" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/store/actions.js" afterPath="$PROJECT_DIR$/src/store/actions.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/store/index.js" afterPath="$PROJECT_DIR$/src/store/index.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/store/mutation-type.js" afterPath="$PROJECT_DIR$/src/store/mutation-type.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/store/mutations.js" afterPath="$PROJECT_DIR$/src/store/mutations.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -685,7 +677,7 @@
       <workItem from="1497228546062" duration="749000" />
       <workItem from="1497451349980" duration="5230000" />
       <workItem from="1497498518036" duration="682000" />
-      <workItem from="1497532374391" duration="5600000" />
+      <workItem from="1497532374391" duration="5676000" />
     </task>
     <task id="LOCAL-00001" summary="推荐banner、私人fm、小标题组件">
       <created>1497023306139</created>
@@ -736,11 +728,18 @@
       <option name="project" value="LOCAL" />
       <updated>1497456588860</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="播放列表">
+      <created>1497538021242</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1497538021242</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="128207000" />
+    <option name="totallyTimeSpent" value="128283000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -832,7 +831,8 @@
     <MESSAGE value="修改播放组件，增加进度条" />
     <MESSAGE value="增加歌词" />
     <MESSAGE value="歌词滚动" />
-    <option name="LAST_COMMIT_MESSAGE" value="歌词滚动" />
+    <MESSAGE value="播放列表" />
+    <option name="LAST_COMMIT_MESSAGE" value="播放列表" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

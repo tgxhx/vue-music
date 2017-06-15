@@ -2,11 +2,11 @@
   <div class="audio-nav">
     <div class="music-wrap">
       <div class="music-img" @click="showPlayer">
-        <img :src="curPlayMusic.detail.al.picUrl" alt="">
+        <img v-if="curPlayMusic" :src="curPlayMusic.detail.al.picUrl" alt="">
       </div>
       <div class="music-con">
         <p class="music-name" v-if="curPlayMusic">{{curPlayMusic.detail.name}}</p>
-        <p class="music-lyric">给你一张过去的cd</p>
+        <p class="music-lyric">{{curLyric}}</p>
       </div>
     </div>
     <div class="music-btn">
@@ -15,7 +15,7 @@
         <i class="iconfont icon-zanting" v-else @click="pause"></i>
       </div>
       <div class="nav-btn-list">
-        <i class="iconfont icon-liebiao"></i>
+        <i class="iconfont icon-liebiao" @click="showPlayList"></i>
       </div>
     </div>
   </div>
@@ -28,27 +28,15 @@
   export default {
     data() {
       return {
-        url: ''
       }
     },
     computed: {
       ...mapState([
-        'curPlayMusic', 'playing'
+        'curPlayMusic', 'playing','curLyric'
       ])
     },
     mounted() {
       this.$nextTick(() => {
-        this.url = curPlayMusic.url
-        var audioStatus = "paused";
-        var audio = this.$refs.nav_music;
-        audio.addEventListener("onplaying", function () {
-          audioStatus = "playing";
-          console.log(audioStatus)
-        });
-        audio.addEventListener("onpause", function () {
-          audioStatus = "paused";
-          console.log(audioStatus)
-        });
       })
     },
     methods: {
@@ -60,11 +48,11 @@
         document.getElementById('music').pause()
         this.$store.dispatch('switchPlaying', false)
       },
-      musicPlaying() {
-        console.log('music playing')
-      },
       showPlayer() {
         this.$store.state.showPlayer = true
+      },
+      showPlayList() {
+        this.$store.dispatch('showPlayList', false)
       }
     },
     filters: {},
@@ -96,6 +84,7 @@
     z-index: 1000;
     .music-wrap {
       display: flex;
+      flex:1;
       .music-img {
         width: pr(33);
         img {
@@ -103,8 +92,10 @@
         }
       }
       .music-con {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
         margin-left: pr(10);
-        margin-top: pr(3);
         p {
           &:first-of-type {
             font-size: pr(12);
@@ -113,6 +104,8 @@
             margin-top: pr(5);
             font-size: pr(10);
             color: #666;
+            height:pr(10);
+            @include ell;
           }
         }
       }

@@ -18,7 +18,7 @@
           <md-icon>share</md-icon>
         </md-button>
       </md-toolbar>
-      <div class="player-panel1">
+      <div class="player-panel1" v-show="showPanel" @click="showPanelF">
         <div class="player-line"></div>
         <div class="record-cover">
           <div class="record-bg rotate-bg animated slideInRight">
@@ -35,7 +35,7 @@
           <div class="bar-item"><i class="iconfont icon-more1170511easyiconnet"></i></div>
         </div>
       </div>
-      <div class="player-panel2">
+      <div class="player-panel2" v-show="!showPanel" @click="showPanelF">
         <ul ref="lyric_wrap" class="lyric-wrap" :style="`transform: translateY(${marginTop}px)`">
           <li v-for="(value,key) in lyric">{{value}}</li>
         </ul>
@@ -57,7 +57,7 @@
             <i class="iconfont icon-zanting" v-else @click="pause"></i>
           </div>
           <div class="next"><i class="iconfont icon-xiayishou1"></i></div>
-          <div class="play-list"><i class="iconfont icon-liebiao"></i></div>
+          <div class="play-list"><i class="iconfont icon-liebiao"  @click="showPlayList"></i></div>
         </div>
       </div>
     </div>
@@ -80,7 +80,8 @@
         allTime: 0,
         curIdot: 0,
         parsed: {},
-        marginTop: 0
+        marginTop: 0,
+        showPanel: true
       }
     },
     computed: {
@@ -107,48 +108,46 @@
       },
       pause() {
         this.$refs.audio.pause()
-        clearInterval(this.timer)
+//        clearInterval(this.timer)
         this.$store.dispatch('switchPlaying', false)
 //        console.log(this.$store.state.playing)
       },
       timeProgress() {
         /*this.timer = setInterval(() => {*/
         const audioid = document.getElementById('music')
-        this.curProgress = ((audioid.currentTime / audioid.duration) * document.querySelector('.progress-bar').offsetWidth) + 'px'
-        this.curIdot = ((audioid.currentTime / audioid.duration) * document.querySelector('.progress-bar').offsetWidth - 13) + 'px'
+        var cur = ((audioid.currentTime / audioid.duration) * document.querySelector('.progress-bar').offsetWidth)
+        this.curProgress = cur + 'px'
+        this.curIdot = (cur - 13) + 'px'
         this.currentTime = audioid.currentTime
         this.allTime = audioid.duration
         /*}, 1000)*/
 
+        if (!this.playing) {
+          this.$store.dispatch('switchPlaying', true)
+        }
+
         this.updateLyric(audioid)
       },
       updateLyric(audioid) {
-        var text_temp;
-        var data = this.parsed
+        let text_temp;
+        let data = this.parsed
         if (!data) return;
         let currentTime = Math.round(audioid.currentTime)
-        var lrc = data[currentTime];
+        let lrc = data[currentTime];
         if (!lrc)return;
-        var text = lrc.text
+        let text = lrc.text
         if (text != text_temp) {
 //          locationLrc(lrc);
           document.querySelectorAll('.lyric-wrap .on').forEach((v,i) => {
               v.classList.remove('on')
           })
-          document.querySelector('.lyric-wrap').querySelectorAll('li:nth-child(' + (lrc.index + 1) + ')')[0].classList.add('on')
-          var top = Math.min(0, -lrc.top);
+          let num = document.querySelector('.lyric-wrap').querySelectorAll('li:nth-child(' + (lrc.index + 1) + ')')[0]
+          num.classList.add('on')
+          this.$store.dispatch('showCurLyric', num.innerText)
+          let top = Math.min(0, -lrc.top);
           this.marginTop = top
-          console.log(this.marginTop)
+//          console.log(this.marginTop)
           text_temp = text;
-        }
-
-        var _this = this
-
-        function locationLrc(lrc) {
-          var top = Math.min(0, -lrc.top);
-          //lyric.css({"-webkit-transform":"translate(0,-"+lrc.top+"px)"});
-          _this.marginTop = top
-//          document.querySelector('.lyric_wrap').style.marginTop = top + 'px'
         }
       },
       startPlay() {
@@ -160,16 +159,14 @@
       },
       setParsed() {
         let i = 0
-        var lyricLineHeight = 27,
-          offset = 32
         for (let k in this.lyric) {
           this.parsed[k] = {
             index: i++,
             text: this.lyric[k],
-            top: (i * lyricLineHeight - offset ) * 0.8
+            top: (i * 30) * 0.9
           }
         }
-        console.log(this.parsed)
+//        console.log(this.parsed)
       },
       back() {
         this.$store.state.showPlayer = false
@@ -193,6 +190,14 @@
         }
         return lrcObj;
       },
+      //切换两个面板
+      showPanelF() {
+        this.showPanel = !this.showPanel
+      },
+      //显示播放列表
+      showPlayList() {
+        this.$store.dispatch('showPlayList', false)
+      }
     },
     filters: {
       timeFormat(value) {
@@ -213,9 +218,9 @@
     watch: {
       playing(val, old) {
         if (val) {
-          console.log(this.$store.state.curPlayMusic)
+//          console.log(this.$store.state.curPlayMusic)
         } else {
-          console.log(this.playing)
+//          console.log(this.playing)
         }
       }
     }
@@ -271,7 +276,7 @@
     right: 0;
     top: pr(56);
     bottom: pr(110);
-    display: none;
+    /*display: none;*/
     .player-line {
       height: 1px;
       background-image: -webkit-linear-gradient(
@@ -373,11 +378,12 @@
     color: #fff;
     overflow: hidden;
     ul {
-      padding-top: 50%;
+      padding-top: 65%;
       transition: all .8s;
       li {
         font-size: pr(14);
-        padding: pr(10) 0;
+        /*padding: 5px 0;*/
+        line-height:30px;
         text-align: center;
         color: #ccc;
         &.on {
