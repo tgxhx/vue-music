@@ -57,7 +57,7 @@
             <i class="iconfont icon-zanting" v-else @click="pause"></i>
           </div>
           <div class="next"><i class="iconfont icon-xiayishou1"></i></div>
-          <div class="play-list"><i class="iconfont icon-liebiao"  @click="showPlayList"></i></div>
+          <div class="play-list-btn"><i class="iconfont icon-liebiao"  @click="showPlayList"></i></div>
         </div>
       </div>
     </div>
@@ -196,7 +196,7 @@
       },
       //显示播放列表
       showPlayList() {
-        this.$store.dispatch('showPlayList', false)
+        this.$store.dispatch('showPlayList', true)
       }
     },
     filters: {
@@ -453,6 +453,9 @@
             margin-left: 0;
           }
         }
+      }
+      .play-list-btn {
+
       }
     }
   }

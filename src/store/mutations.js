@@ -15,6 +15,18 @@ export default {
       lrc: arr[2].data.lrc
     }
     state.curPlayMusic = obj
+
+    //保存播放列表
+    let songObj
+    arr[1].data.playlist.tracks.forEach((val) => {
+      songObj = {
+        id: val.id,
+        name: val.name,
+        artist: val.ar
+      }
+      state.playList.push(songObj)
+    })
+
   },
   [types.SWITCH_PLAYING](state, status) {
     state.playing = status
@@ -24,6 +36,7 @@ export default {
   },
   [types.SHOW_PLAY_LIST](state, status) {
     state.showPlayList = status
+    state.showCover = status
   },
   [types.PLAY_LIST](state, arr) {
     state.playList = arr
