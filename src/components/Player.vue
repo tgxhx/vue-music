@@ -12,8 +12,11 @@
         <md-button class="md-icon-button">
           <md-icon @click.native="back">arrow_back</md-icon>
         </md-button>
-        <h2 class="md-title" style="flex: 1">{{curPlayMusic.detail.name}}<br/><span
-          v-for="(item,index) in curPlayMusic.detail.ar">{{item.name}}/</span></h2>
+        <h2 class="md-title" style="flex: 1">{{curPlayMusic.detail.name}}<br/>
+          <span
+          v-for="(item,index) in curPlayMusic.detail.ar">{{item.name}}
+            <span v-if="index !== curPlayMusic.detail.ar.length - 1">/ </span>
+          </span></h2>
         <md-button class="md-icon-button">
           <md-icon>share</md-icon>
         </md-button>
@@ -36,8 +39,11 @@
         </div>
       </div>
       <div class="player-panel2" v-show="!showPanel" @click="showPanelF">
-        <ul ref="lyric_wrap" class="lyric-wrap" :style="`transform: translateY(${marginTop}px)`">
+        <ul ref="lyric_wrap" class="lyric-wrap" v-if="lyric" :style="`transform: translateY(${marginTop}px)`">
           <li v-for="(value,key) in lyric">{{value}}</li>
+        </ul>
+        <ul v-else>
+          <li>暂无歌词</li>
         </ul>
       </div>
       <div class="player-ctrl">
@@ -79,7 +85,7 @@
         currentTime: 0,
         allTime: 0,
         curIdot: 0,
-        parsed: {},
+        parsed: {}, //临时哈希表，保存播放进度和偏移位置
         marginTop: 0,
         showPanel: true
       }
@@ -92,7 +98,11 @@
        'lyric'
        ]),*/
       lyric() {
-        return this.parseLrc(this.$store.state.curPlayMusic.lrc.lyric)
+        if (this.curPlayMusic.lrc !== undefined) {
+          return this.parseLrc(this.curPlayMusic.lrc.lyric) || null
+        } else {
+          return false
+        }
       }
     },
     mounted() {
@@ -146,31 +156,56 @@
           this.$store.dispatch('showCurLyric', num.innerText)
           let top = Math.min(0, -lrc.top);
           this.marginTop = top
-//          console.log(this.marginTop)
+          console.log(this.marginTop)
+          console.log(lrc.index + 1)
           text_temp = text;
         }
       },
       startPlay() {
         console.log('start')
+        if (this.lyric.length <=0) {
+            return
+        }
         this.setParsed()
       },
       ended() {
         this.$store.dispatch('switchPlaying', false)
       },
+      //保存歌词索引内容偏移位置
       setParsed() {
         let i = 0
+        if (this.lyric) {
+            return
+        }
+
+        //用数组保存lyric的键并排序
+        var arr = []
         for (let k in this.lyric) {
-          this.parsed[k] = {
+          /*this.parsed[k] = {
             index: i++,
             text: this.lyric[k],
             top: (i * 30) * 0.9
-          }
+          }*/
+          arr.push(parseInt(k))
         }
+        //循环数组来为parsed赋值
+        arr.sort((a,b) => a-b).forEach((v, i) => {
+          this.parsed[v] = {
+            index: i++,
+            text: this.lyric[v],
+            top: (i * 30) * 1
+          }
+        })
+        console.log(arr.sort((a,b) => a-b))
+        console.log(this.parsed)
+
 //        console.log(this.parsed)
       },
+      //隐藏播放器
       back() {
         this.$store.state.showPlayer = false
       },
+      //解析歌词
       parseLrc(lrc) {
         var lyrics = lrc.split("\n");
         var lrcObj = {};

@@ -75,6 +75,7 @@
     data() {
       return {
         playlist: {},
+        playListPanel: []
       }
     },
     computed: {
@@ -100,6 +101,17 @@
       fetchSongList() {
         axios.get(`${url}/playlist/detail?id=${this.$route.params.id}`).then(res => {
           this.playlist = res.data.playlist
+
+          let songObj
+          this.playlist.tracks.forEach((val) => {
+            songObj = {
+              id: val.id,
+              name: val.name,
+              artist: val.ar
+            }
+            this.playListPanel.push(songObj);
+          })
+          console.log(this.playListPanel)
         }).catch(err => {
           console.error(err)
         })
@@ -126,6 +138,8 @@
             this.$store.dispatch('curPlayMusic', arr)
             this.$store.dispatch('switchPlaying', true)
             this.$store.state.showPlayer = true
+            this.$store.dispatch('playList', this.playListPanel)
+            console.log(this.playListPanel)
           }))
       },
     },
@@ -275,7 +289,7 @@
         flex: 1;
         overflow: hidden;
         .song-name {
-          line-height:1.2;
+          line-height: 1.2;
           font-size: pr(14);
           @include ell;
           .song-desc {
@@ -284,7 +298,7 @@
           }
         }
         .song-singer {
-          line-height:1.2;
+          line-height: 1.2;
           margin-top: pr(3);
           color: $c888;
           font-size: pr(10);

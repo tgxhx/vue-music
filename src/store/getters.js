@@ -3,7 +3,7 @@
  */
 
 export default {
-  lyric(state) {
+  /*lyric(state) {
     return state.curPlayMusic.lrc.lyric
-  }
+  }*/
 }

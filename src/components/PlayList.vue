@@ -1,12 +1,13 @@
 <template>
   <div class="play-list" :class="{showlist:showPlayList}">
     <div class="play-list-title">
-      播放列表（447）
+      播放列表（{{playList.length}}）
     </div>
     <div class="play-list-content">
       <ul>
-        <li class="play-list-item" v-if="(item,index) in playList" :key="index">
-          <div class="song-name">item.name - <span>林俊杰</span></div>
+        <li class="play-list-item" v-for="(item,index) in playList" :key="index">
+          <div class="song-name" @click="playMusicFromList(item.id)">{{item.name}} - <span v-for="(value,i) in item.artist">{{value.name}}<span
+            v-if="i !== item.artist.length - 1"> / </span></span></div>
           <div class="song-del"><i class="iconfont icon-shanchu"></i></div>
         </li>
       </ul>
@@ -17,6 +18,7 @@
 <script type="text/ecmascript-6">
   import axios from 'axios'
   import {mapState} from 'vuex'
+  import url from '../assets/js/api'
 
   export default {
     data() {
@@ -24,7 +26,7 @@
     },
     computed: {
       ...mapState([
-        'showPlayList','playList'
+        'showPlayList', 'playList'
       ])
     },
     mounted() {
@@ -35,6 +37,25 @@
     methods: {
       hideCover() {
         this.$store.dispatch('showPlayList', false)
+      },
+      playMusicFromList(id) {
+        function getUrl() {
+          return axios.get(`${url}/music/url?id=${id}`)
+        }
+
+        function getDetail() {
+          return axios.get(`${url}/song/detail?ids=${id}`)
+        }
+
+        function getLyric() {
+          return axios.get(`${url}/lyric?id=${id}`)
+        }
+        axios.all([getUrl(), getDetail(), getLyric()])
+          .then(axios.spread((res1, res2, res3) => {
+            const arr = [res1, res2, res3]
+            this.$store.dispatch('curPlayMusic', arr)
+            this.$store.dispatch('switchPlaying', true)
+          }))
       }
     },
     filters: {},
@@ -61,12 +82,16 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding:0 pr(10);
-      height: pr(46);
+      padding: 0 pr(10);
+      height: pr(40);
       font-size: pr(14);
       border-bottom: 1px solid #e0e0e0;
     }
     .play-list-content {
+      height:pr(354);
+      overflow-y: auto;
+      ul {
+      }
       .play-list-item {
         display: flex;
         justify-content: space-between;
