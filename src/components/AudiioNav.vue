@@ -1,8 +1,8 @@
 <template>
-  <div class="audio-nav">
-    <div class="music-wrap">
-      <div class="music-img" @click="showPlayer">
-        <img v-if="curPlayMusic" :src="curPlayMusic.detail.al.picUrl" alt="">
+  <div class="audio-nav" v-if="JSON.stringify(curPlayMusic) !== '{}'">
+    <div class="music-wrap" @click="showPlayer">
+      <div class="music-img">
+        <img :src="curPlayMusic.detail.al.picUrl" alt="">
       </div>
       <div class="music-con">
         <p class="music-name" v-if="curPlayMusic">{{curPlayMusic.detail.name}}</p>

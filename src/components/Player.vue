@@ -12,9 +12,9 @@
         <md-button class="md-icon-button">
           <md-icon @click.native="back">arrow_back</md-icon>
         </md-button>
-        <h2 class="md-title" style="flex: 1">{{curPlayMusic.detail.name}}<br/>
+        <h2 class="md-title" style="flex: 1" v-if="JSON.stringify(curPlayMusic) !== '{}'">{{curPlayMusic.detail.name}}<br/>
           <span
-          v-for="(item,index) in curPlayMusic.detail.ar">{{item.name}}
+          v-for="(item,index) in curPlayMusic.detail.ar"  v-if="curPlayMusic">{{item.name}}
             <span v-if="index !== curPlayMusic.detail.ar.length - 1">/ </span>
           </span></h2>
         <md-button class="md-icon-button">
@@ -26,7 +26,7 @@
         <div class="record-cover">
           <div class="record-bg rotate-bg animated slideInRight">
             <div class="music-bg">
-              <img :src="curPlayMusic.detail.al.picUrl" alt="">
+              <img :src="curPlayMusic.detail.al.picUrl" alt="" v-if="JSON.stringify(curPlayMusic) !== '{}'">
             </div>
           </div>
         </div>
@@ -67,7 +67,7 @@
         </div>
       </div>
     </div>
-    <div class="player-bg" :style="`backgroundImage:url(${curPlayMusic.detail.al.picUrl})`"></div>
+    <div class="player-bg" :style="`backgroundImage:url(${curPlayMusic.detail.al.picUrl})`" v-if="JSON.stringify(curPlayMusic) !== '{}'"></div>
   </div>
 </template>
 
@@ -101,6 +101,7 @@
         if (this.curPlayMusic.lrc !== undefined) {
           return this.parseLrc(this.curPlayMusic.lrc.lyric) || null
         } else {
+          debugger
           return false
         }
       }
@@ -162,10 +163,10 @@
         }
       },
       startPlay() {
-        console.log('start')
         if (this.lyric.length <=0) {
             return
         }
+        console.log('start')
         this.setParsed()
       },
       ended() {
@@ -174,7 +175,7 @@
       //保存歌词索引内容偏移位置
       setParsed() {
         let i = 0
-        if (this.lyric) {
+        if (this.lyric.length <= 0) {
             return
         }
 
