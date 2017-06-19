@@ -12,9 +12,10 @@
         <md-button class="md-icon-button">
           <md-icon @click.native="back">arrow_back</md-icon>
         </md-button>
-        <h2 class="md-title" style="flex: 1" v-if="JSON.stringify(curPlayMusic) !== '{}'">{{curPlayMusic.detail.name}}<br/>
+        <h2 class="md-title" style="flex: 1" v-if="JSON.stringify(curPlayMusic) !== '{}'">
+          {{curPlayMusic.detail.name}}<br/>
           <span
-          v-for="(item,index) in curPlayMusic.detail.ar"  v-if="curPlayMusic">{{item.name}}
+            v-for="(item,index) in curPlayMusic.detail.ar" v-if="curPlayMusic">{{item.name}}
             <span v-if="index !== curPlayMusic.detail.ar.length - 1">/ </span>
           </span></h2>
         <md-button class="md-icon-button">
@@ -42,7 +43,7 @@
         <ul ref="lyric_wrap" class="lyric-wrap" v-if="lyric" :style="`transform: translateY(${marginTop}px)`">
           <li v-for="(value,key) in lyric">{{value}}</li>
         </ul>
-        <ul v-else>
+        <ul v-else class="lyric-wrap">
           <li>暂无歌词</li>
         </ul>
       </div>
@@ -63,11 +64,12 @@
             <i class="iconfont icon-zanting" v-else @click="pause"></i>
           </div>
           <div class="next"><i class="iconfont icon-xiayishou1"></i></div>
-          <div class="play-list-btn"><i class="iconfont icon-liebiao"  @click="showPlayList"></i></div>
+          <div class="play-list-btn"><i class="iconfont icon-liebiao" @click="showPlayList"></i></div>
         </div>
       </div>
     </div>
-    <div class="player-bg" :style="`backgroundImage:url(${curPlayMusic.detail.al.picUrl})`" v-if="JSON.stringify(curPlayMusic) !== '{}'"></div>
+    <div class="player-bg" :style="`backgroundImage:url(${curPlayMusic.detail.al.picUrl})`"
+         v-if="JSON.stringify(curPlayMusic) !== '{}'"></div>
   </div>
 </template>
 
@@ -101,7 +103,7 @@
         if (this.curPlayMusic.lrc !== undefined) {
           return this.parseLrc(this.curPlayMusic.lrc.lyric) || null
         } else {
-          debugger
+//          debugger
           return false
         }
       }
@@ -149,8 +151,8 @@
         let text = lrc.text
         if (text != text_temp) {
 //          locationLrc(lrc);
-          document.querySelectorAll('.lyric-wrap .on').forEach((v,i) => {
-              v.classList.remove('on')
+          document.querySelectorAll('.lyric-wrap .on').forEach((v, i) => {
+            v.classList.remove('on')
           })
           let num = document.querySelector('.lyric-wrap').querySelectorAll('li:nth-child(' + (lrc.index + 1) + ')')[0]
           num.classList.add('on')
@@ -163,8 +165,8 @@
         }
       },
       startPlay() {
-        if (this.lyric.length <=0) {
-            return
+        if (this.lyric.length <= 0) {
+          return
         }
         console.log('start')
         this.setParsed()
@@ -176,28 +178,28 @@
       setParsed() {
         let i = 0
         if (this.lyric.length <= 0) {
-            return
+          return
         }
 
         //用数组保存lyric的键并排序
         var arr = []
         for (let k in this.lyric) {
           /*this.parsed[k] = {
-            index: i++,
-            text: this.lyric[k],
-            top: (i * 30) * 0.9
-          }*/
+           index: i++,
+           text: this.lyric[k],
+           top: (i * 30) * 0.9
+           }*/
           arr.push(parseInt(k))
         }
         //循环数组来为parsed赋值
-        arr.sort((a,b) => a-b).forEach((v, i) => {
+        arr.sort((a, b) => a - b).forEach((v, i) => {
           this.parsed[v] = {
             index: i++,
             text: this.lyric[v],
             top: (i * 30) * 1
           }
         })
-        console.log(arr.sort((a,b) => a-b))
+        console.log(arr.sort((a, b) => a - b))
         console.log(this.parsed)
 
 //        console.log(this.parsed)
@@ -419,7 +421,7 @@
       li {
         font-size: pr(14);
         /*padding: 5px 0;*/
-        line-height:30px;
+        line-height: 30px;
         text-align: center;
         color: #ccc;
         &.on {

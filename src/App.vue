@@ -5,6 +5,7 @@
     <audio-nav></audio-nav>
     <play-list></play-list>
     <cover></cover>
+    <comment></comment>
   </div>
 </template>
 
@@ -13,13 +14,14 @@
   import Player from './components/Player'
   import PlayList from './components/PlayList.vue'
   import Cover from './components/Cover.vue'
+  import Comment from './components/Comment.vue'
 
   export default {
     data() {
       return {}
     },
     components: {
-      AudioNav,Player,PlayList,Cover
+      AudioNav,Player,PlayList,Cover,Comment
     }
   }
 </script>

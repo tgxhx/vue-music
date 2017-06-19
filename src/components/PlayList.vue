@@ -6,8 +6,15 @@
     <div class="play-list-content">
       <ul>
         <li class="play-list-item" v-for="(item,index) in playList" :key="index">
-          <div class="song-name" @click="playMusicFromList(item.id)">{{item.name}} - <span v-for="(value,i) in item.artist">{{value.name}}<span
-            v-if="i !== item.artist.length - 1"> / </span></span></div>
+          <div
+            class="song-name"
+            :class="{current: item.id === curPlayMusic.detail.id}"
+            @click="playMusicFromList(item.id)">
+            <i class="iconfont icon-iconfonthuodonggonggao"></i>{{item.name}} -
+            <span v-for="(value,i) in item.artist">{{value.name}}
+              <span v-if="i !== item.artist.length - 1"> / </span>
+            </span>
+          </div>
           <div class="song-del"><i class="iconfont icon-shanchu"></i></div>
         </li>
       </ul>
@@ -26,7 +33,7 @@
     },
     computed: {
       ...mapState([
-        'showPlayList', 'playList'
+        'showPlayList', 'playList','curPlayMusic'
       ])
     },
     mounted() {
@@ -105,6 +112,21 @@
           line-height: 1.5;
           margin-right: pr(10);
           @include ell;
+          .iconfont {
+            display: none;
+          }
+          &.current {
+            color:$baseColor;
+            .iconfont {
+              display: inline;
+              margin-top:pr(2);
+              margin-right:pr(5);
+              font-size:pr(14);
+            }
+            span {
+              color:$baseColor;
+            }
+          }
           span {
             color: #909090;
             font-size: pr(10);
