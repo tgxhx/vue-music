@@ -1,8 +1,12 @@
 <template>
-    <div class="comment">
-      <md-toolbar class="md-dense">
+    <div
+      class="comment"
+      :class="{show: showComment}"
+      ref="comment"
+      v-if="JSON.stringify(curPlayMusic) !== '{}'">
+      <md-toolbar class="md-dense" :class="{show: showComment}">
         <md-button class="md-icon-button">
-          <md-icon >arrow_back</md-icon>
+          <md-icon @click.native="hideComment">arrow_back</md-icon>
         </md-button>
         <h2 class="md-title" style="flex: 1" @click="changeId">评论</h2>
         <md-button class="md-icon-button">
@@ -10,14 +14,22 @@
       </md-toolbar>
       <div class="music-info">
         <div class="music-pic">
-          <img src="http://articles.csdn.net/uploads/allimg/121116/28_121116100507_1.jpg" alt="">
+          <img :src="curPlayMusic.detail.al.picUrl" alt="" v-if="JSON.stringify(curPlayMusic) !== '{}'">
         </div>
         <div class="music-name">
-          <p>手心的蔷薇</p>
-          <p><span>林俊杰<span>/</span></span></p>
+          <p
+            v-if="JSON.stringify(curPlayMusic) !== '{}'">{{curPlayMusic.detail.name}}</p>
+          <p>
+            <span
+            v-for="(item,index) in curPlayMusic.detail.ar"
+            >{{item.name}}
+            <span v-if="index !== curPlayMusic.detail.ar.length - 1">/
+            </span>
+          </span>
+          </p>
         </div>
       </div>
-      <div class="wonderful-comments">
+      <div class="wonderful-comments" v-show="!showLoading">
         <div class="comment-title">
           精彩评论
         </div>
@@ -38,7 +50,7 @@
           </li>
         </ul>
       </div>
-      <div class="recent-comments">
+      <div class="recent-comments" v-show="!showLoading">
         <div class="comment-title">
           最新评论
         </div>
@@ -59,6 +71,12 @@
           </li>
         </ul>
       </div>
+      <div class="comment-loading" v-show="showLoading">
+        <md-spinner :md-size="40" md-indeterminate></md-spinner>
+      </div>
+     <!-- <div class="comment-b-loading" v-show="bottomLoading">>
+        <md-spinner :md-size="30" md-indeterminate></md-spinner>
+      </div>-->
     </div>
 </template>
 
@@ -71,34 +89,51 @@
     data() {
       return {
         hotComments: [],
-        comments: []
+        comments: [],
+        showLoading: false,
+        bottomLoading: false
       }
     },
     computed: {
       ...mapState([
-        'commentId'
+        'commentId','showComment','curPlayMusic'
       ])
     },
     mounted() {
       this.$nextTick(() => {
-
+        const ele = this.$refs.comment
+        ele.addEventListener('scroll', () => {
+          const scrollTop = ele.scrollTop
+          const clientHeight = ele.clientHeight
+          const scrollHeight = ele.scrollHeight
+          if (scrollTop + clientHeight >= scrollHeight - 5) {
+            this.bottomLoading = true
+              console.log('到底')
+          }
+        })
       })
     },
     methods: {
       fetComment(id) {
-        axios.get(`${url}/comment/music?id=186016&limit=20`).then(res => {
+        axios.get(`${url}/comment/music?id=${id}&limit=20`).then(res => {
           this.hotComments = res.data.hotComments
           this.comments = res.data.comments
+          this.showLoading = false
         })
       },
       changeId() {
         this.$store.dispatch('commentId',23212)
+      },
+      hideComment() {
+        this.$store.state.showComment = false
       }
     },
     filters: {},
     watch: {
       commentId(val,old) {
-        this.fetComment()
+        this.$store.state.showComment = true
+        this.showLoading = true
+        this.fetComment(val)
       }
     }
   }
@@ -108,19 +143,26 @@
     @import '../assets/css/base';
 
   .comment {
-    position: fixed;
-    top:0;
+    position: static;
     left: 0;
-    bottom: 0px;
+    bottom: -2000px;
     right: 0;
     background-color: #fff;
     z-index: 1004;
     overflow-y: auto;
-    .md-toolbar {
+    &.show {
       position: fixed;
+      top:0;
+      bottom:0;
+    }
+    .md-toolbar {
+      position: static;
       left:0;
       top:0;
       right:0;
+      &.show {
+        position: fixed;
+      }
     }
     .music-info {
       margin-top:pr(48);
@@ -203,6 +245,15 @@
           }
         }
       }
+    }
+    .comment-loading {
+      position: absolute;
+      left:50%;
+      top:50%;
+      transform: translate(-40%, -50%);
+    }
+    .comment-b-loading {
+      display: flex;
     }
   }
 </style>

@@ -15,7 +15,8 @@ const state = {
   showPlayList: false,
   playList: [],
   showCover: false,
-  commentId: null
+  commentId: null,
+  showComment: false
 }
 
 export default new Vuex.Store({

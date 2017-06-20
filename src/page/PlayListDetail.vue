@@ -111,7 +111,7 @@
             }
             this.playListPanel.push(songObj);
           })
-          console.log(this.playListPanel)
+//          console.log(this.playListPanel)
         }).catch(err => {
           console.error(err)
         })
@@ -139,7 +139,7 @@
             this.$store.dispatch('switchPlaying', true)
             this.$store.state.showPlayer = true
             this.$store.dispatch('playList', this.playListPanel)
-            console.log(this.playListPanel)
+//            console.log(this.playListPanel)
           }))
       },
     },

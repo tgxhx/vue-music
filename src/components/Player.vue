@@ -34,7 +34,8 @@
         <div class="player-bar">
           <div class="bar-item"><i class="iconfont icon-like"></i></div>
           <div class="bar-item"><i class="iconfont icon-download"></i></div>
-          <div class="bar-item"><i class="iconfont icon-pinglun"></i><span
+          <div class="bar-item" @click.stop="openComment(curPlayMusic.detail.id)"
+               v-if="JSON.stringify(curPlayMusic) !== '{}'"><i class="iconfont icon-pinglun"></i><span
             class="comment-total">{{11111 | commentTotalFormat}}</span></div>
           <div class="bar-item"><i class="iconfont icon-more1170511easyiconnet"></i></div>
         </div>
@@ -134,11 +135,6 @@
         this.currentTime = audioid.currentTime
         this.allTime = audioid.duration
         /*}, 1000)*/
-
-        if (!this.playing) {
-          this.$store.dispatch('switchPlaying', true)
-        }
-
         this.updateLyric(audioid)
       },
       updateLyric(audioid) {
@@ -159,8 +155,8 @@
           this.$store.dispatch('showCurLyric', num.innerText)
           let top = Math.min(0, -lrc.top);
           this.marginTop = top
-          console.log(this.marginTop)
-          console.log(lrc.index + 1)
+          /*console.log(this.marginTop)
+          console.log(lrc.index + 1)*/
           text_temp = text;
         }
       },
@@ -168,7 +164,8 @@
         if (this.lyric.length <= 0) {
           return
         }
-        console.log('start')
+//        console.log('start')
+        this.$store.dispatch('switchPlaying', true)
         this.setParsed()
       },
       ended() {
@@ -199,8 +196,8 @@
             top: (i * 30) * 1
           }
         })
-        console.log(arr.sort((a, b) => a - b))
-        console.log(this.parsed)
+        /*console.log(arr.sort((a, b) => a - b))
+        console.log(this.parsed)*/
 
 //        console.log(this.parsed)
       },
@@ -235,6 +232,11 @@
       //显示播放列表
       showPlayList() {
         this.$store.dispatch('showPlayList', true)
+      },
+      //打开评论
+      openComment(id) {
+        this.$store.dispatch('commentId', id)
+        this.$store.state.showComment = true
       }
     },
     filters: {
@@ -254,13 +256,7 @@
       }
     },
     watch: {
-      playing(val, old) {
-        if (val) {
-//          console.log(this.$store.state.curPlayMusic)
-        } else {
-//          console.log(this.playing)
-        }
-      }
+
     }
   }
 </script>
