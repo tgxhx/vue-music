@@ -2,7 +2,6 @@
   <div
     class="comment"
     :class="{show: showComment}"
-    ref="comment"
     v-if="JSON.stringify(curPlayMusic) !== '{}'">
     <md-toolbar class="md-dense" :class="{show: showComment}">
       <md-button class="md-icon-button">
@@ -12,71 +11,73 @@
       <md-button class="md-icon-button">
       </md-button>
     </md-toolbar>
-    <div class="music-info">
-      <div class="music-pic">
-        <img :src="curPlayMusic.detail.al.picUrl" alt="" v-if="JSON.stringify(curPlayMusic) !== '{}'">
-      </div>
-      <div class="music-name">
-        <p
-          v-if="JSON.stringify(curPlayMusic) !== '{}'">{{curPlayMusic.detail.name}}</p>
-        <p>
+    <div class="comment-wrap" ref="comment">
+      <div class="music-info">
+        <div class="music-pic">
+          <img :src="curPlayMusic.detail.al.picUrl" alt="" v-if="JSON.stringify(curPlayMusic) !== '{}'">
+        </div>
+        <div class="music-name">
+          <p
+            v-if="JSON.stringify(curPlayMusic) !== '{}'">{{curPlayMusic.detail.name}}</p>
+          <p>
             <span
               v-for="(item,index) in curPlayMusic.detail.ar"
             >{{item.name}}
             <span v-if="index !== curPlayMusic.detail.ar.length - 1">/
             </span>
           </span>
-        </p>
+          </p>
+        </div>
+      </div>
+      <div class="wonderful-comments" v-show="!showLoading">
+        <div class="comment-title">
+          精彩评论
+        </div>
+        <ul class="comment-content">
+          <li v-for="(item,index) in hotComments">
+            <div class="comment-avatar">
+              <div><img :src="item.user.avatarUrl" alt=""></div>
+            </div>
+            <div class="comment-body">
+              <div class="comment-body-title">
+                <p>{{item.user.nickname}} <br/><span>2017年7月7日</span></p>
+                <p>{{item.likedCount}} <i class="iconfont icon-dianzan"></i></p>
+              </div>
+              <div class="comment-body-content">
+                <p>{{item.content}}</p>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="recent-comments" v-show="!showLoading">
+        <div class="comment-title">
+          最新评论
+        </div>
+        <ul class="comment-content">
+          <li v-for="(item,index) in comments">
+            <div class="comment-avatar">
+              <div><img :src="item.user.avatarUrl" alt=""></div>
+            </div>
+            <div class="comment-body">
+              <div class="comment-body-title">
+                <p>{{item.user.nickname}} <br/><span>2017年7月7日</span></p>
+                <p>{{item.likedCount}} <i class="iconfont icon-dianzan"></i></p>
+              </div>
+              <div class="comment-body-content">
+                <p>{{item.content}}</p>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="comment-loading" v-show="showLoading">
+        <md-spinner :md-size="40" md-indeterminate></md-spinner>
+      </div>
+      <div class="comment-b-loading" v-show="bottomLoading">
+        <md-spinner :md-size="30" md-indeterminate></md-spinner>
       </div>
     </div>
-    <div class="wonderful-comments" v-show="!showLoading">
-      <div class="comment-title">
-        精彩评论
-      </div>
-      <ul class="comment-content">
-        <li v-for="(item,index) in hotComments">
-          <div class="comment-avatar">
-            <div><img :src="item.user.avatarUrl" alt=""></div>
-          </div>
-          <div class="comment-body">
-            <div class="comment-body-title">
-              <p>{{item.user.nickname}} <br/><span>2017年7月7日</span></p>
-              <p>{{item.likedCount}} <i class="iconfont icon-dianzan"></i></p>
-            </div>
-            <div class="comment-body-content">
-              <p>{{item.content}}</p>
-            </div>
-          </div>
-        </li>
-      </ul>
-    </div>
-    <div class="recent-comments" v-show="!showLoading">
-      <div class="comment-title">
-        最新评论
-      </div>
-      <ul class="comment-content">
-        <li v-for="(item,index) in comments">
-          <div class="comment-avatar">
-            <div><img :src="item.user.avatarUrl" alt=""></div>
-          </div>
-          <div class="comment-body">
-            <div class="comment-body-title">
-              <p>{{item.user.nickname}} <br/><span>2017年7月7日</span></p>
-              <p>{{item.likedCount}} <i class="iconfont icon-dianzan"></i></p>
-            </div>
-            <div class="comment-body-content">
-              <p>{{item.content}}</p>
-            </div>
-          </div>
-        </li>
-      </ul>
-    </div>
-    <div class="comment-loading" v-show="showLoading">
-      <md-spinner :md-size="40" md-indeterminate></md-spinner>
-    </div>
-     <div class="comment-b-loading" v-show="bottomLoading">
-       <md-spinner :md-size="30" md-indeterminate></md-spinner>
-     </div>
   </div>
 </template>
 
@@ -115,6 +116,7 @@
       fetComment(id, offset) {
         axios.get(`${url}/comment/music?id=${id}&limit=20&offset=${offset}`).then(res => {
           this.comments = res.data.comments
+          this.bottomLoading = false
         })
       },
       changeId() {
@@ -144,6 +146,7 @@
             const scrollHeight = ele.scrollHeight
             if (scrollTop + clientHeight >= scrollHeight - 1) {
               this.bottomLoading = true
+              this.fetComment(this.commentId, (this.offset)++)
               console.log('到底')
               /*this.offset++*/
             }
@@ -165,23 +168,27 @@
     right: 0;
     background-color: #fff;
     z-index: 1004;
-    overflow-y: auto;
+    transform: translate(0, 100%);
     &.show {
       position: fixed;
       top: 0;
       bottom: 0;
+      transform: translate(0, 0);
     }
     .md-toolbar {
-      position: static;
+      position: absolute;
       left: 0;
       top: 0;
       right: 0;
-      &.show {
-        position: fixed;
-      }
     }
+
+    .comment-wrap {
+      height:100%;
+      padding-top:pr(48);
+      overflow-y: auto;
+    }
+
     .music-info {
-      margin-top: pr(48);
       display: flex;
       align-items: center;
       height: pr(81);
