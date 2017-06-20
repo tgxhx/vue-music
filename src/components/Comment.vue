@@ -74,9 +74,9 @@
     <div class="comment-loading" v-show="showLoading">
       <md-spinner :md-size="40" md-indeterminate></md-spinner>
     </div>
-    <!-- <div class="comment-b-loading" v-show="bottomLoading">>
+     <div class="comment-b-loading" v-show="bottomLoading">
        <md-spinner :md-size="30" md-indeterminate></md-spinner>
-     </div>-->
+     </div>
   </div>
 </template>
 
@@ -102,21 +102,7 @@
     },
     mounted() {
       this.$nextTick(() => {
-        if (JSON.stringify(this.curPlayMusic) === '{}') {
-          return
-        }
-        const ele = this.$refs.comment
-        ele.addEventListener('scroll', () => {
-          const scrollTop = ele.scrollTop
-          const clientHeight = ele.clientHeight
-          const scrollHeight = ele.scrollHeight
-          if (scrollTop + clientHeight >= scrollHeight) {
-            this.bottomLoading = true
-            console.log('到底')
-            this.offset++
-          }
-          console.log('scroll')
-        })
+
       })
     },
     methods: {
@@ -144,9 +130,26 @@
         this.$store.state.showComment = true
         this.showLoading = true
         this.fetHotComment(val)
+        this.fetComment(val,1)
       },
       offset(val, old) {
         this.fetComment(commentId, val)
+      },
+      showComment(val, old) {
+        if (val) {
+          const ele = this.$refs.comment
+          ele.addEventListener('scroll', () => {
+            const scrollTop = ele.scrollTop
+            const clientHeight = ele.clientHeight
+            const scrollHeight = ele.scrollHeight
+            if (scrollTop + clientHeight >= scrollHeight - 1) {
+              this.bottomLoading = true
+              console.log('到底')
+              /*this.offset++*/
+            }
+            console.log('scroll')
+          })
+        }
       }
     }
   }
@@ -267,6 +270,8 @@
     }
     .comment-b-loading {
       display: flex;
+      height:pr(40);
+      justify-content: center;
     }
   }
 </style>
