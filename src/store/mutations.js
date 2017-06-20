@@ -28,5 +28,8 @@ export default {
   },
   [types.PLAY_LIST](state, arr) {
     state.playList = arr
+  },
+  [types.COMMENT_ID](state, id) {
+    state.commentId = id
   }
 }

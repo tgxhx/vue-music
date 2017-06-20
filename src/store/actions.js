@@ -21,5 +21,8 @@ export default {
   },
   playList({commit}, arr) {
     commit(types.PLAY_LIST, arr)
+  },
+  commentId({commit}, id) {
+    commit(types.COMMENT_ID, id)
   }
 }

@@ -10,3 +10,5 @@ export const SHOW_CUR_LYRIC = 'SHOW_CUR_LYRIC'
 export const SHOW_PLAY_LIST = 'SHOW_PLAY_LIST'
 //存储播放列表
 export const PLAY_LIST = 'PLAY_LIST'
+//当前歌曲评论id
+export const COMMENT_ID = 'COMMENT_ID'
