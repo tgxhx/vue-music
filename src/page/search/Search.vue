@@ -4,7 +4,10 @@
       <md-button class="md-icon-button">
         <md-icon>arrow_back</md-icon>
       </md-button>
-      <input type="text" placeholder="搜索音乐、歌手、歌词、用户">
+      <input type="text"
+             placeholder="搜索音乐、歌手、歌词、用户"
+             @keyup="searchData"
+             v-model="searchKey">
     </md-toolbar>
     <div class="hot-search" style="display: none;">
       <p>热门搜索</p>
@@ -25,6 +28,14 @@
       <md-button @click.native="searchTab('album')">专辑</md-button>
       <md-button @click.native="searchTab('list')">歌单</md-button>
     </md-button-toggle>
+    <div class="search-suggest" v-show="showSuggest">
+      <div class="search-key">搜索“{{searchKey}}”</div>
+      <ul v-if="suggestSongs.length !== 0">
+        <li v-for="(item,index) in suggestSongs"><i
+          class="iconfont icon-sousuo"></i>{{item.name}} - {{item.artists[0].name}}
+        </li>
+      </ul>
+    </div>
     <transition :name="transitionName">
       <keep-alive>
         <router-view class="search-child-view"></router-view>
@@ -36,11 +47,15 @@
 <script type="text/ecmascript-6">
   import axios from 'axios'
   import {mapState} from 'vuex'
+  import url from '../../assets/js/api'
 
   export default {
     data() {
       return {
-        transitionName: ''
+        transitionName: '',
+        showSuggest: false,
+        searchKey: '',
+        suggestSongs: []
       }
     },
     computed: {
@@ -54,6 +69,17 @@
     methods: {
       searchTab(tab) {
         this.$router.push({path: `/search/${tab}`})
+      },
+      searchData() {
+        axios.get(`${url}/search/suggest?keywords=${this.searchKey}`).then(res => {
+          this.showSuggest = true
+          if (res.data.code === 200) {
+            this.suggestSongs = res.data.result.songs
+          } else if (res.data.code === 400) {
+            this.suggestSongs = []
+            this.showSuggest = false
+          }
+        })
       }
     },
     filters: {},
@@ -73,6 +99,11 @@
 
   #search {
     .md-toolbar {
+      position: fixed;
+      left: 0;
+      top: 0;
+      right: 0;
+      z-index: 1000;
       input {
         flex: 1;
         margin-right: pr(25);
@@ -110,7 +141,12 @@
       }
     }
     .md-button-toggle.search-button-toggle {
+      position: fixed;
+      top: pr(48);
+      left: 0;
+      right: 0;
       display: flex;
+      z-index: 1000;
       .md-button {
         flex: 1;
         font-size: pr(13);
@@ -124,17 +160,43 @@
       }
     }
 
+    .search-suggest {
+      position: fixed;
+      z-index: 1001;
+      top: pr(48);
+      left: pr(15);
+      right: pr(33);
+      background-color: #f3f3f3;
+      box-shadow: 3px 3px 10px #ccc, -1px 3px 10px #ccc;
+      transition: all .3s;
+      .search-key {
+        padding: pr(15) pr(13);
+        color: #679dc5;
+      }
+      ul {
+        li {
+          padding: pr(15) pr(13);
+          border-top: 1px solid #e5e5e5;
+          color: #666;
+          font-size: pr(14);
+          @include ell;
+          .iconfont {
+            margin-right: pr(8);
+          }
+        }
+      }
+    }
+
     .search-child-view {
       position: absolute;
       top: pr(86.4);
       left: 0;
       width: 100%;
-      transition: all .3s cubic-bezier(.55,0,.1,1);
-      background-color: #fff;
+      transition: all .3s cubic-bezier(.55, 0, .1, 1);
+      background-color: #f2f4f5;
       overflow: auto;
       -webkit-overflow-scrolling: touch;
     }
-
     .search-slide-left-enter, .search-slide-right-leave-active {
       opacity: 0;
       -webkit-transform: translate(7.5rem, 0);

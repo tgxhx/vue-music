@@ -66,6 +66,7 @@ export default new Router({
     {
       path: '/search',
       component: Search,
+      redirect: '',
       children: [
         {
           path: 'song',
