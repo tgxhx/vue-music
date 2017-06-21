@@ -22,7 +22,7 @@
     </md-button-toggle>
     <transition :name="transitionName">
       <keep-alive>
-        <router-view class="child-view"></router-view>
+        <router-view class="index-child-view"></router-view>
       </keep-alive>
     </transition>
   </div>
@@ -119,7 +119,7 @@
   }
 
   /* 上面是为了保证滑动的时候不出现抖动情况 */
-  .child-view {
+  .index-child-view {
     position: absolute;
     left:0;
     top: pr(84);

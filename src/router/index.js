@@ -10,6 +10,12 @@ import Top from '../page/index/Top'
 
 import Home from '../page/home/Home'
 import PlayListDetail from '../page/PlayListDetail'
+import Search from '../page/search/Search'
+import Song from '../page/search/Song'
+import Artist from '../page/search/Artist'
+import Album from '../page/search/Album'
+import List from '../page/search/list.vue'
+
 
 Vue.use(Router)
 
@@ -25,7 +31,7 @@ export default new Router({
       component: Root,
       children: [
         {
-          path:'index',
+          path: 'index',
           component: Index,
           redirect: 'index/recommend',
           children: [
@@ -56,6 +62,28 @@ export default new Router({
     {
       path: '/playlistdetail/:id',
       component: PlayListDetail
+    },
+    {
+      path: '/search',
+      component: Search,
+      children: [
+        {
+          path: 'song',
+          component: Song
+        },
+        {
+          path: 'artist',
+          component: Artist
+        },
+        {
+          path: 'album',
+          component: Album
+        },
+        {
+          path: 'list',
+          component: List
+        }
+      ]
     }
   ]
 })

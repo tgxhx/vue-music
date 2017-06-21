@@ -1,12 +1,12 @@
 <template>
-  <div>
+  <div class="root">
     <md-toolbar class="md-dense root">
       <md-button class="md-icon-button">
         <md-icon>menu</md-icon>
       </md-button>
       <h2 class="md-title" style="flex: 1"></h2>
       <md-button class="md-icon-button">
-        <md-icon @click.native="toHome">search</md-icon>
+        <md-icon>search</md-icon>
       </md-button>
     </md-toolbar>
     <router-view></router-view>
