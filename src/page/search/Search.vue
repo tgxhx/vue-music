@@ -7,7 +7,10 @@
       <input type="text"
              placeholder="搜索音乐、歌手、歌词、用户"
              @keyup="searchData"
+             @focus="showSuggest = true"
+             @blur="showSuggest = false"
              v-model="searchKey">
+      <i class="iconfont icon-search" @click="toChild"></i>
     </md-toolbar>
     <div class="hot-search" style="display: none;">
       <p>热门搜索</p>
@@ -29,16 +32,17 @@
       <md-button @click.native="searchTab('list')">歌单</md-button>
     </md-button-toggle>
     <div class="search-suggest" v-show="showSuggest">
-      <div class="search-key">搜索“{{searchKey}}”</div>
+      <div class="search-key" @click="toChild">搜索“{{searchKey}}”</div>
       <ul v-if="suggestSongs.length !== 0">
-        <li v-for="(item,index) in suggestSongs"><i
+        <li v-for="(item,index) in suggestSongs"
+            @click="playMusicFromSearch(item.id)"><i
           class="iconfont icon-sousuo"></i>{{item.name}} - {{item.artists[0].name}}
         </li>
       </ul>
     </div>
     <transition :name="transitionName">
       <keep-alive>
-        <router-view class="search-child-view"></router-view>
+        <router-view class="search-child-view" :search-key="searchKeyProps"></router-view>
       </keep-alive>
     </transition>
   </div>
@@ -55,7 +59,9 @@
         transitionName: '',
         showSuggest: false,
         searchKey: '',
-        suggestSongs: []
+        searchKeyProps: '',
+        suggestSongs: [],
+        searching: false
       }
     },
     computed: {
@@ -80,6 +86,29 @@
             this.showSuggest = false
           }
         })
+      },
+      playMusicFromSearch(id) {
+        function getUrl() {
+          return axios.get(`${url}/music/url?id=${id}`)
+        }
+
+        function getDetail() {
+          return axios.get(`${url}/song/detail?ids=${id}`)
+        }
+
+        function getLyric() {
+          return axios.get(`${url}/lyric?id=${id}`)
+        }
+        axios.all([getUrl(), getDetail(), getLyric()])
+          .then(axios.spread((res1, res2, res3) => {
+            const arr = [res1, res2, res3]
+            this.$store.dispatch('curPlayMusic', arr)
+            this.$store.state.showPlayer = true
+          }))
+      },
+      toChild() {
+        this.$router.push({path: '/search/song'})
+        this.searchKeyProps = this.searchKey
       }
     },
     filters: {},
@@ -106,7 +135,7 @@
       z-index: 1000;
       input {
         flex: 1;
-        margin-right: pr(25);
+        margin-right: pr(5);
         height: pr(30);
         background-color: transparent;
         border: none;
@@ -119,6 +148,10 @@
         &:focus {
           outline: none;
         }
+      }
+      .iconfont {
+        display: inline-block;
+        font-size:pr(20)
       }
     }
     .hot-search {

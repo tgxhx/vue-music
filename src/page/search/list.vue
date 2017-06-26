@@ -1,7 +1,7 @@
 <template>
-    <div>
-      list
-    </div>
+  <div>
+    {{word}}
+  </div>
 </template>
 
 <script type="text/ecmascript-6">
@@ -10,26 +10,39 @@
 
   export default {
     data() {
-      return {}
+      return {
+        word: ''
+      }
+    },
+    props: {
+      searchKey: {
+        type: String,
+        required: true
+      }
     },
     computed: {
       ...mapState([])
     },
     mounted() {
       this.$nextTick(() => {
-
+        this.getList(this.searchKey)
       })
     },
     methods: {
-      toHome() {
-        this.$router.push({path: '/root/home'})
+      getList(key) {
+        this.word = key + 'list'
       }
     },
     filters: {},
+    watch: {
+      searchKey(val, old) {
+        this.getList(val)
+      }
+    }
   }
 </script>
 
 <style lang="scss" type="text/scss">
-    @import '../../assets/css/base';
+  @import '../../assets/css/base';
 
 </style>

@@ -1,6 +1,6 @@
 <template>
     <div>
-      album
+      {{word}}
     </div>
 </template>
 
@@ -10,22 +10,34 @@
 
   export default {
     data() {
-      return {}
+      return {
+        word: ''
+      }
+    },props:{
+      searchKey: {
+        type: String,
+        required: true
+      }
     },
     computed: {
       ...mapState([])
     },
     mounted() {
       this.$nextTick(() => {
-
+        this.getAlbum(this.searchKey)
       })
     },
     methods: {
-      toHome() {
-        this.$router.push({path: '/root/home'})
+      getAlbum(key) {
+        this.word = key + 'album'
       }
     },
     filters: {},
+    watch: {
+      searchKey(val, old) {
+        this.getAlbum(val)
+      }
+    }
   }
 </script>
 
