@@ -96,10 +96,12 @@
         }
         .search-song-name {
           font-size:pr(14);
+          @include ell;
         }
         .search-song-artist {
           margin-top:pr(10);
           font-size:pr(12);
+          @include ell;
         }
         .iconfont {
           color:#888;

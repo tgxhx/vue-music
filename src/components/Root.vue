@@ -6,7 +6,9 @@
       </md-button>
       <h2 class="md-title" style="flex: 1"></h2>
       <md-button class="md-icon-button">
-        <md-icon>search</md-icon>
+        <router-link to="/search">
+          <md-icon>search</md-icon>
+        </router-link>
       </md-button>
     </md-toolbar>
     <router-view></router-view>
@@ -47,5 +49,8 @@
     left:0;
     right:0;
     z-index:1000;
+    a {
+      color:rgba(255,255,255,.87) !important;
+    }
   }
 </style>

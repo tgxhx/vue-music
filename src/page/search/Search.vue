@@ -2,7 +2,7 @@
   <div id="search">
     <md-toolbar class="md-dense search">
       <md-button class="md-icon-button">
-        <md-icon>arrow_back</md-icon>
+        <md-icon @click.native="back">arrow_back</md-icon>
       </md-button>
       <input type="text"
              placeholder="搜索音乐、歌手、歌词、用户"
@@ -109,6 +109,9 @@
       toChild() {
         this.$router.push({path: '/search/song'})
         this.searchKeyProps = this.searchKey
+      },
+      back() {
+        this.$router.go(-1)
       }
     },
     filters: {},
