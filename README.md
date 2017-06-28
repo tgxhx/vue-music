@@ -1,6 +1,6 @@
 # vue-music
 
-> A Vue.js project
+> api：[api](https://binaryify.github.io/NeteaseCloudMusicApi/#/?id=%e5%ae%89%e8%a3%85)
 
 ## Build Setup
 
