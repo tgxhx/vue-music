@@ -6,13 +6,12 @@
       </md-button>
       <input type="text"
              placeholder="搜索音乐、歌手、歌词、用户"
-             @keyup="searchData"
-             @focus="showSuggest = true"
-             @blur="showSuggest = false"
+             @keydown="searchData"
+             @focus="showSuggest = searchKey !== '' ? true: false"
              v-model="searchKey">
       <i class="iconfont icon-search" @click="toChild"></i>
     </md-toolbar>
-    <div class="hot-search" style="display: none;">
+    <div class="hot-search" style="display: block;">
       <p>热门搜索</p>
       <ul class="hot-search-list">
         <li>我想和你唱</li>
@@ -74,18 +73,22 @@
     },
     methods: {
       searchTab(tab) {
-        this.$router.push({path: `/search/${tab}`})
+        this.$router.replace({path: `/search/${tab}`})
       },
-      searchData() {
-        axios.get(`${url}/search/suggest?keywords=${this.searchKey}`).then(res => {
-          this.showSuggest = true
-          if (res.data.code === 200) {
-            this.suggestSongs = res.data.result.songs
-          } else if (res.data.code === 400) {
-            this.suggestSongs = []
-            this.showSuggest = false
-          }
-        })
+      searchData(e) {
+        if (e.keyCode === 13) {
+            this.toChild()
+        } else {
+          axios.get(`${url}/search/suggest?keywords=${this.searchKey}`).then(res => {
+            this.showSuggest = true
+            if (res.data.code === 200) {
+              this.suggestSongs = res.data.result.songs
+            } else if (res.data.code === 400) {
+              this.suggestSongs = []
+              this.showSuggest = false
+            }
+          })
+        }
       },
       playMusicFromSearch(id) {
         function getUrl() {
@@ -109,6 +112,7 @@
       toChild() {
         this.$router.push({path: '/search/song'})
         this.searchKeyProps = this.searchKey
+        this.showSuggest = false
       },
       back() {
         this.$router.go(-1)

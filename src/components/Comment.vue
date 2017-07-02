@@ -162,7 +162,7 @@
   @import '../assets/css/base';
 
   .comment {
-    position: static;
+    position: fixed;
     left: 0;
     bottom: -2000px;
     right: 0;

@@ -11,7 +11,8 @@
   export default {
     data() {
       return {
-        word: ''
+        word: '',
+        artists:[]
       }
     },
     props: {
