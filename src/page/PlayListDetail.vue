@@ -95,12 +95,12 @@
     },
     mounted() {
       this.$nextTick(() => {
-        this.playList = new BScroll(this.$refs.playlistdetail, {
+        /*this.playList = new BScroll(this.$refs.playlistdetail, {
           probeType: 3,
           click: true,
           startX: 0,
           startY: 0
-        })
+        })*/
       })
     },
     methods: {
