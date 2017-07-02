@@ -24,6 +24,7 @@
       </md-toolbar>
       <div class="player-panel1" v-show="showPanel" @click="showPanelF">
         <div class="player-line"></div>
+        <div class="player-needle"><img src="../assets/images/player-needle.png" alt=""></div>
         <div class="record-cover">
           <div class="record-bg rotate-bg animated slideInRight">
             <div class="music-bg">
@@ -156,7 +157,7 @@
           let top = Math.min(0, -lrc.top);
           this.marginTop = top
           /*console.log(this.marginTop)
-          console.log(lrc.index + 1)*/
+           console.log(lrc.index + 1)*/
           text_temp = text;
         }
       },
@@ -197,7 +198,7 @@
           }
         })
         /*console.log(arr.sort((a, b) => a - b))
-        console.log(this.parsed)*/
+         console.log(this.parsed)*/
 
 //        console.log(this.parsed)
       },
@@ -255,9 +256,7 @@
         }
       }
     },
-    watch: {
-
-    }
+    watch: {}
   }
 </script>
 
@@ -325,6 +324,17 @@
           rgba(255, 255, 255, .3),
           rgba(0, 0, 0, 0)
       );
+    }
+
+    .player-needle {
+      position: absolute;
+      z-index: 1;
+      top:-1px;
+      left: 46%;
+      height: pr(140);
+      img {
+        height: 100%;
+      }
     }
 
     .record-cover {

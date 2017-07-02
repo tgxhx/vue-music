@@ -1,24 +1,14 @@
 <template>
   <ul id="search-albums">
-    <li class="search-album-item" v-for="(item,index) in albums">
-      <div class="s-album-avatar">
-        <img :src="item.picUrl" alt="">
-      </div>
-      <div class="s-album-avatar-bg">
-        <img src="../../assets/images/search-artist-bg.png" alt="">
-      </div>
-      <div class="s-album-name">
-        <p>{{item.artist.name}}</p>
-        <p>{{item.name}}</p>
-      </div>
-    </li>
+    <list-item :item="album" v-for="(album,index) in albums" :key="index"></list-item>
   </ul>
 </template>
 
-<script type="text/ecmascript-6">
+<script type="text/ecmascript-6"  >
   import axios from 'axios'
   import {mapState} from 'vuex'
   import url from '../../assets/js/api'
+  import ListItem from './ListItem'
 
   export default {
     data() {
@@ -38,7 +28,7 @@
     },
     mounted() {
       this.$nextTick(() => {
-
+        this.getAlbum(this.searchKey)
       })
     },
     methods: {
@@ -49,6 +39,7 @@
       }
     },
     filters: {},
+    components: {ListItem},
     watch: {
       searchKey(val, old) {
         this.getAlbum(val)
@@ -60,33 +51,4 @@
 <style lang="scss" type="text/scss">
   @import '../../assets/css/base';
 
-  .search-album-item {
-    display: flex;
-    align-items: center;
-    padding: pr(3) pr(6);
-    border-bottom: 1px solid #e0e0e0;
-    .s-album-avatar {
-      @include ava(pr(50))
-    }
-    .s-album-avatar-bg {
-      height: pr(46);
-      img {
-        height: 100%;
-      }
-    }
-    .s-album-name {
-      flex: 1;
-      padding-left: pr(10);
-      p {
-        &:first-of-type {
-          font-size: pr(14);
-        }
-        &:nth-of-type(2) {
-          margin-top: pr(8);
-          font-size: pr(10);
-          color: #666;
-        }
-      }
-    }
-  }
 </style>

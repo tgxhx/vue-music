@@ -24,7 +24,7 @@
         <li>异形</li>
       </ul>
     </div>
-    <md-button-toggle md-single class="search-button-toggle">
+    <md-button-toggle md-single class="search-button-toggle" v-if="showSearchType">
       <md-button class="md-toggle" @click.native="searchTab('song')">单曲</md-button>
       <md-button @click.native="searchTab('artist')">歌手</md-button>
       <md-button @click.native="searchTab('album')">专辑</md-button>
@@ -60,7 +60,8 @@
         searchKey: '',
         searchKeyProps: '',
         suggestSongs: [],
-        searching: false
+        searching: false,
+        showSearchType: false
       }
     },
     computed: {
@@ -113,6 +114,7 @@
         this.$router.push({path: '/search/song'})
         this.searchKeyProps = this.searchKey
         this.showSuggest = false
+        this.showSearchType = true
       },
       back() {
         this.$router.go(-1)
