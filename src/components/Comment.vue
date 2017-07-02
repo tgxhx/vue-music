@@ -140,7 +140,7 @@
       showComment(val, old) {
         if (val) {
           const ele = this.$refs.comment
-          ele.addEventListener('scroll', () => {
+          /*ele.addEventListener('scroll', () => {
             const scrollTop = ele.scrollTop
             const clientHeight = ele.clientHeight
             const scrollHeight = ele.scrollHeight
@@ -148,10 +148,10 @@
               this.bottomLoading = true
               this.fetComment(this.commentId, (this.offset)++)
               console.log('到底')
-              /*this.offset++*/
+              /!*this.offset++*!/
             }
             console.log('scroll')
-          })
+          })*/
         }
       }
     }

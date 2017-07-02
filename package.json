@@ -12,6 +12,7 @@
   "dependencies": {
     "animate.css": "^3.5.2",
     "axios": "^0.16.2",
+    "better-scroll": "^0.2.4",
     "grade-js": "^1.0.10",
     "muse-ui": "^2.0.3",
     "node-sass": "^4.5.3",
