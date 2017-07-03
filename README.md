@@ -2,6 +2,8 @@
 
 > api：[api](https://binaryify.github.io/NeteaseCloudMusicApi/#/?id=%e5%ae%89%e8%a3%85)
 
+> [预览地址](http://39.108.14.248/music)（推荐用chrome的手机模式打开，在自己手机上测试会有歌曲无法播放的奇怪问题，待解决）
+
 ## Build Setup
 
 ``` bash
