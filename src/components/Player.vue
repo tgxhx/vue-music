@@ -59,13 +59,20 @@
           <span>{{allTime | timeFormat}}</span>
         </div>
         <div class="player-conctrl">
-          <div class="play-mode"><i class="iconfont icon-suijibofang"></i></div>
-          <div class="prev"><i class="iconfont icon-shangyishou1"></i></div>
+          <div class="play-mode" @click="switchMode">
+            <i class="iconfont"
+               :class="{
+              'icon-shunxubofang': mode === 1,
+              'icon-suijibofang': mode === 2,
+              'icon-danquxunhuan': mode === 3}
+            "></i>
+          </div>
+          <div class="prev" @click="prevMusic"><i class="iconfont icon-shangyishou1"></i></div>
           <div class="ctrl">
             <i class="iconfont icon-iconfontplay" v-if="!playing" @click="play"></i>
             <i class="iconfont icon-zanting" v-else @click="pause"></i>
           </div>
-          <div class="next"><i class="iconfont icon-xiayishou1"></i></div>
+          <div class="next" @click="nextMusic"><i class="iconfont icon-xiayishou1"></i></div>
           <div class="play-list-btn"><i class="iconfont icon-liebiao" @click="showPlayList"></i></div>
         </div>
       </div>
@@ -91,12 +98,13 @@
         curIdot: 0,
         parsed: {}, //临时哈希表，保存播放进度和偏移位置
         marginTop: 0,
-        showPanel: true
+        showPanel: true,
+        mode: 1  //播放模式，1-顺序，2-随机，3-循环
       }
     },
     computed: {
       ...mapState([
-        'playing', 'showPlayer', 'curPlayMusic'
+        'playing', 'showPlayer', 'curPlayMusic', 'curMusicIndex', 'playList'
       ]),
       /*...mapGetters([
        'lyric'
@@ -108,6 +116,14 @@
 //          debugger
           return false
         }
+      },
+      randomId() {
+        let length = this.playList.length
+        let id
+        do {
+          id = Math.round(Math.random() * length)
+        } while (id === this.curMusicIndex)
+        return id
       }
     },
     mounted() {
@@ -171,6 +187,7 @@
       },
       ended() {
         this.$store.dispatch('switchPlaying', false)
+        this.nextMusic()
       },
       //保存歌词索引内容偏移位置
       setParsed() {
@@ -238,6 +255,28 @@
       openComment(id) {
         this.$store.dispatch('commentId', id)
         this.$store.state.showComment = true
+      },
+      //下一首
+      nextMusic() {
+        if (this.mode === 1) {
+          this.$store.dispatch('curMusicIndex', this.curMusicIndex + 1)
+        } else if (this.mode === 2) {
+          this.$store.dispatch('curMusicIndex', this.randomId)
+        }
+      },
+      //上一首
+      prevMusic() {
+        if (this.mode === 1) {
+          !this.curMusicIndex
+            ? this.$store.dispatch('curMusicIndex', 0)
+            : this.$store.dispatch('curMusicIndex', this.curMusicIndex - 1)
+        } else if (this.mode === 2) {
+          this.$store.dispatch('curMusicIndex', this.randomId)
+        }
+      },
+      //切换播放模式
+      switchMode() {
+        this.mode < 3 ? this.mode++ : this.mode = 1
       }
     },
     filters: {
@@ -329,7 +368,7 @@
     .player-needle {
       position: absolute;
       z-index: 1;
-      top:-1px;
+      top: -1px;
       left: 46%;
       height: pr(140);
       img {

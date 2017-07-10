@@ -3,7 +3,7 @@
  */
 
 export default {
-  /*lyric(state) {
-    return state.curPlayMusic.lrc.lyric
-  }*/
+  curId(state) {
+    return state.curPlayMusic.detail.id
+  }
 }

@@ -24,5 +24,8 @@ export default {
   },
   commentId({commit}, id) {
     commit(types.COMMENT_ID, id)
+  },
+  curMusicIndex({commit}, index) {
+    commit(types.CUR_MUSIC_INDEX, index)
   }
 }

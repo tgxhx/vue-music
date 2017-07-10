@@ -10,7 +10,6 @@ export default {
   [types.CUR_PLAY_MUSIC](state, arr) {
     const obj = {
       url: arr[0].data.data[0].url,
-      // url: 'http://localhost/static/%E5%91%A8%E6%9D%B0%E4%BC%A6%20-%20%E6%99%B4%E5%A4%A9.mp3',
       detail: arr[1].data.songs[0],
       lrc: arr[2].data.lrc
     }
@@ -31,5 +30,8 @@ export default {
   },
   [types.COMMENT_ID](state, id) {
     state.commentId = id
+  },
+  [types.CUR_MUSIC_INDEX](state, index) {
+    state.curMusicIndex = index
   }
 }

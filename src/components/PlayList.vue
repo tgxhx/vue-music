@@ -1,14 +1,14 @@
 <template>
   <div class="play-list" :class="{showlist:showPlayList}">
     <div class="play-list-title">
-      播放列表（{{playList.length}}）
+      播放列表（{{playList.length}}）{{curMusicIndex}}
     </div>
     <div class="play-list-content">
       <ul>
         <li class="play-list-item" v-for="(item,index) in playList" :key="index">
           <div
             class="song-name"
-            :class="{current: item.id === curPlayMusic.detail.id}"
+            :class="{current: item.id === curId}"
             @click="playMusicFromList(item.id)">
             <i class="iconfont icon-iconfonthuodonggonggao"></i>{{item.name}} -
             <span v-for="(value,i) in item.artist">{{value.name}}
@@ -24,7 +24,7 @@
 
 <script type="text/ecmascript-6">
   import axios from 'axios'
-  import {mapState} from 'vuex'
+  import {mapState,mapGetters} from 'vuex'
   import url from '../assets/js/api'
 
   export default {
@@ -33,12 +33,24 @@
     },
     computed: {
       ...mapState([
-        'showPlayList', 'playList','curPlayMusic'
-      ])
+        'showPlayList', 'playList','curPlayMusic','curMusicIndex'
+      ]),
+      ...mapGetters([
+        'curId'
+      ]),
+      curMusicIndexComputed() {
+        if (this.playList.length > 0) {
+          return this.playList.findIndex((ele) => {
+            return ele.id === this.curId
+          })
+        } else {
+          return 0
+        }
+      }
     },
     mounted() {
       this.$nextTick(() => {
-
+        this.$store.dispatch('curMusicIndex', this.curMusicIndexComputed)
       })
     },
     methods: {
@@ -66,6 +78,12 @@
       }
     },
     filters: {},
+    watch: {
+      curMusicIndex(val, old) {
+        this.playMusicFromList(this.playList[val].id)
+        console.log(this.playList[val].id)
+      }
+    }
   }
 </script>
 

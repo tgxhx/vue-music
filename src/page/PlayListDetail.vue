@@ -75,7 +75,6 @@
   import url from '../assets/js/api'
   import Grade from 'grade-js'
   import filters from '../assets/js/filters'
-  import BScroll from 'better-scroll'
 
   export default {
     data() {
@@ -95,12 +94,7 @@
     },
     mounted() {
       this.$nextTick(() => {
-        /*this.playList = new BScroll(this.$refs.playlistdetail, {
-          probeType: 3,
-          click: true,
-          startX: 0,
-          startY: 0
-        })*/
+
       })
     },
     methods: {
@@ -127,6 +121,7 @@
         this.$router.go(-1)
       },
       playMusic(id) {
+        this.$store.state.showPlayer = true
         function getUrl() {
           return axios.get(`${url}/music/url?id=${id}`)
         }
@@ -144,7 +139,6 @@
             const arr = [res1, res2, res3]
             this.$store.dispatch('curPlayMusic', arr)
             this.$store.dispatch('switchPlaying', true)
-            this.$store.state.showPlayer = true
             this.$store.dispatch('playList', this.playListPanel)
 //            console.log(this.playListPanel)
           }))

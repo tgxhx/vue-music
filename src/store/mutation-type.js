@@ -12,3 +12,5 @@ export const SHOW_PLAY_LIST = 'SHOW_PLAY_LIST'
 export const PLAY_LIST = 'PLAY_LIST'
 //当前歌曲评论id
 export const COMMENT_ID = 'COMMENT_ID'
+//当前歌曲在播放列表的索引
+export const CUR_MUSIC_INDEX = 'CUR_MUSIC_INDEX'
