@@ -7,7 +7,7 @@
       <md-button class="md-icon-button">
         <md-icon @click.native="hideComment">arrow_back</md-icon>
       </md-button>
-      <h2 class="md-title" style="flex: 1" @click="changeId">评论</h2>
+      <h2 class="md-title" style="flex: 1">评论<span v-if="total">({{total}})</span></h2>
       <md-button class="md-icon-button">
       </md-button>
     </md-toolbar>
@@ -93,7 +93,8 @@
         comments: [],
         showLoading: false,
         bottomLoading: false,
-        offset: 1
+        offset: 1,
+        total: ''  //评论总数
       }
     },
     computed: {
@@ -111,6 +112,7 @@
         axios.get(`${url}/comment/music?id=${id}&limit=0`).then(res => {
           this.hotComments = res.data.hotComments
           this.showLoading = false
+          this.total = res.data.total
         })
       },
       fetComment(id, offset) {

@@ -17,7 +17,7 @@ const state = {
   showCover: false,
   commentId: null,
   showComment: false,
-  curMusicIndex: null
+  curMusicIndex: 0
 }
 
 export default new Vuex.Store({

@@ -4,6 +4,6 @@
 
 export default {
   curId(state) {
-    return state.curPlayMusic.detail.id
+    return state.curPlayMusic.detail ? state.curPlayMusic.detail.id : null
   }
 }

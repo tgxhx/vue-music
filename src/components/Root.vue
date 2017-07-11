@@ -4,7 +4,17 @@
       <md-button class="md-icon-button">
         <md-icon>menu</md-icon>
       </md-button>
-      <h2 class="md-title" style="flex: 1"></h2>
+      <h2 class="md-title" style="flex: 1">
+        <i class="iconfont"
+           :class="{
+              'icon-yinyue': i === 0,
+              'icon-wangyiyunyinlezizhi': i === 1,
+              'icon-shejiao': i === 2,
+              'active': i === cur
+            }"
+           @click="cur = i"
+           v-for="(n,i) in 3"></i>
+      </h2>
       <md-button class="md-icon-button">
         <router-link to="/search">
           <md-icon>search</md-icon>
@@ -21,7 +31,9 @@
 
   export default {
     data() {
-      return {}
+      return {
+        cur: 1
+      }
     },
     computed: {
       ...mapState([])
@@ -45,12 +57,34 @@
 
   .md-toolbar.root {
     position: fixed;
-    top:0;
-    left:0;
-    right:0;
-    z-index:1000;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
     a {
-      color:rgba(255,255,255,.87) !important;
+      color: rgba(255, 255, 255, .87) !important;
+    }
+    .md-title {
+      display: flex;
+      justify-content: center;
+      .iconfont {
+        color: #e58983;
+        &.active {
+          color:#fff;
+        }
+        &:not(:last-of-type) {
+          margin-right:pr(15);
+        }
+        &:nth-of-type(1) {
+          font-size:pr(20);
+        }
+        &:nth-of-type(2) {
+          font-size:pr(26);
+        }
+        &:nth-of-type(3) {
+          font-size:pr(24);
+        }
+      }
     }
   }
 </style>

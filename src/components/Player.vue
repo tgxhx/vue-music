@@ -117,6 +117,7 @@
           return false
         }
       },
+      //随机播放随机id
       randomId() {
         let length = this.playList.length
         let id

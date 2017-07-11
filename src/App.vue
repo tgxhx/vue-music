@@ -28,6 +28,5 @@
 
 <style>
   #app {
-
   }
 </style>

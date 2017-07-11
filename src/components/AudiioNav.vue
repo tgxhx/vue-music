@@ -52,7 +52,7 @@
         this.$store.state.showPlayer = true
       },
       showPlayList() {
-        this.$store.dispatch('showPlayList', false)
+        this.$store.dispatch('showPlayList', true)
       }
     },
     filters: {},

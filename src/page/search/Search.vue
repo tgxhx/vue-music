@@ -11,17 +11,10 @@
              v-model="searchKey">
       <i class="iconfont icon-search" @click="toChild"></i>
     </md-toolbar>
-    <div class="hot-search" style="display: block;">
+    <div class="hot-search" :style="{height:windowHeight + 'px'}">
       <p>热门搜索</p>
       <ul class="hot-search-list">
-        <li>我想和你唱</li>
-        <li>异形</li>
-        <li>我想唱</li>
-        <li>异形</li>
-        <li>我想和你</li>
-        <li>异形</li>
-        <li>我想唱</li>
-        <li>异形</li>
+        <li v-for="(item,index) in hotSearch" @click="searchHotKey(item)">{{item}}</li>
       </ul>
     </div>
     <md-button-toggle md-single class="search-button-toggle" v-if="showSearchType">
@@ -41,7 +34,10 @@
     </div>
     <transition :name="transitionName">
       <keep-alive>
-        <router-view class="search-child-view" :search-key="searchKeyProps"></router-view>
+        <router-view
+          class="search-child-view"
+          :search-key="searchKeyProps"
+        ></router-view>
       </keep-alive>
     </transition>
   </div>
@@ -61,7 +57,9 @@
         searchKeyProps: '',
         suggestSongs: [],
         searching: false,
-        showSearchType: false
+        showSearchType: false,
+        hotSearch: ['跨界歌王', '老大', '暧昧', '告白气球', '演员', '薛之谦', '因你', '张碧晨', '杨宗纬', '凉凉'],
+        windowHeight: 0
       }
     },
     computed: {
@@ -69,7 +67,7 @@
     },
     mounted() {
       this.$nextTick(() => {
-
+        this.windowHeight = document.documentElement.clientHeight
       })
     },
     methods: {
@@ -78,7 +76,7 @@
       },
       searchData(e) {
         if (e.keyCode === 13) {
-            this.toChild()
+          this.toChild()
         } else {
           axios.get(`${url}/search/suggest?keywords=${this.searchKey}`).then(res => {
             this.showSuggest = true
@@ -103,6 +101,7 @@
         function getLyric() {
           return axios.get(`${url}/lyric?id=${id}`)
         }
+
         axios.all([getUrl(), getDetail(), getLyric()])
           .then(axios.spread((res1, res2, res3) => {
             const arr = [res1, res2, res3]
@@ -115,6 +114,10 @@
         this.searchKeyProps = this.searchKey
         this.showSuggest = false
         this.showSearchType = true
+      },
+      searchHotKey(key) {
+        this.searchKey = key
+        this.toChild()
       },
       back() {
         this.$router.go(-1)
@@ -136,6 +139,9 @@
   @import '../../assets/css/base';
 
   #search {
+    > ul {
+      min-height:pr(400);
+    }
     .md-toolbar {
       position: fixed;
       left: 0;
@@ -160,11 +166,12 @@
       }
       .iconfont {
         display: inline-block;
-        font-size:pr(20)
+        font-size: pr(20)
       }
     }
     .hot-search {
-      padding: pr(20) pr(10);
+      box-sizing: border-box;
+      padding: pr(100) pr(10);
       p {
         font-size: pr(12);
         color: #666;
