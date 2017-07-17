@@ -1,5 +1,7 @@
 <template>
-  <div class="player animated fadeIn" :class="{show: showPlayer}">
+  <div class="player animated fadeIn"
+       :class="{show: showPlayer}"
+       @touchmove="moveProgress">
     <audio :src="curPlayMusic.url"
            id="music"
            autoplay="autoplay"
@@ -52,9 +54,10 @@
       <div class="player-ctrl">
         <div class="progress">
           <span>{{currentTime | timeFormat}}</span>
-          <div class="progress-bar">
+          <div class="progress-bar" ref="progress" @click.stop="touchProgress"
+               @touchend.stop="moveProgressEnd">
             <div class="cur-progress" :style="`width:${curProgress}`"></div>
-            <div class="idot" :style="`left:${curIdot}`"></div>
+            <div class="idot" :style="`left:${curIdot}`" @touchstart.stop="isMove = true"></div>
           </div>
           <span>{{allTime | timeFormat}}</span>
         </div>
@@ -77,7 +80,7 @@
         </div>
       </div>
     </div>
-    <div class="player-bg" :style="`backgroundImage:url(${curPlayMusic.detail.al.picUrl})`"
+    <div class="player-bg" :style="`backgroundImage:url(${curPlayMusic.detail.al.picUrl || bg})`"
          v-if="JSON.stringify(curPlayMusic) !== '{}'"></div>
   </div>
 </template>
@@ -99,7 +102,9 @@
         parsed: {}, //临时哈希表，保存播放进度和偏移位置
         marginTop: 0,
         showPanel: true,
-        mode: 1  //播放模式，1-顺序，2-随机，3-循环
+        mode: 1,  //播放模式，1-顺序，2-随机，3-循环
+        bg: '../assets/images/bg.jpg',
+        isMove: false  //
       }
     },
     computed: {
@@ -145,9 +150,12 @@
 //        console.log(this.$store.state.playing)
       },
       timeProgress() {
+        //拖动时不执行
+        if (this.isMove) return
         /*this.timer = setInterval(() => {*/
-        const audioid = document.getElementById('music')
-        var cur = ((audioid.currentTime / audioid.duration) * document.querySelector('.progress-bar').offsetWidth)
+//        const audioid = document.getElementById('music')
+        const audioid = this.$refs.audio
+        var cur = (audioid.currentTime / audioid.duration) * this.$refs.progress.offsetWidth
         this.curProgress = cur + 'px'
         this.curIdot = (cur - 13) + 'px'
         this.currentTime = audioid.currentTime
@@ -278,6 +286,27 @@
       //切换播放模式
       switchMode() {
         this.mode < 3 ? this.mode++ : this.mode = 1
+      },
+      //拖动进度条
+      moveProgress(e) {
+        if (this.isMove) {
+          const pro = this.$refs.progress
+          const curWidth = (e.touches[0].clientX - pro.offsetLeft)
+          this.curProgress = curWidth - 5 + 'px'
+          this.curIdot = curWidth -5 + 'px'
+          console.log(curTime)
+        }
+      },
+      moveProgressEnd(e) {
+        this.isMove = false
+        const pro = this.$refs.progress
+        const curTime = (e.changedTouches[0].clientX - pro.offsetLeft) * pro.offsetWidth / this.allTime
+        this.$refs.audio.currentTime = curTime
+      },
+      touchProgress(e) {
+        const curTime = (e.clientX - this.$refs.progress.offsetLeft) * this.$refs.progress.offsetWidth / this.allTime
+        console.log(curTime)
+        this.$refs.audio.currentTime = curTime
       }
     },
     filters: {
