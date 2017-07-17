@@ -293,7 +293,7 @@
           const pro = this.$refs.progress
           const curWidth = (e.touches[0].clientX - pro.offsetLeft)
           this.curProgress = curWidth - 5 + 'px'
-          this.curIdot = curWidth -5 + 'px'
+          this.curIdot = curWidth - 5 + 'px'
           console.log(curTime)
         }
       },
@@ -336,7 +336,7 @@
     position: fixed;
     left: 0;
     bottom: -2000px;
-    right: 0;
+    right: 0;background: url('../assets/images/bg.jpg');
     background-color: #fff;
     z-index: 1001;
     &.show {
