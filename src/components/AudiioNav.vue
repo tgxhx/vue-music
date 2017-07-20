@@ -41,6 +41,7 @@
     },
     methods: {
       play() {
+        //audio标签在其他组件中，故手动获取dom操作
         document.getElementById('music').play()
         this.$store.dispatch('switchPlaying', true)
       },
@@ -48,9 +49,11 @@
         document.getElementById('music').pause()
         this.$store.dispatch('switchPlaying', false)
       },
+      //显示播放器
       showPlayer() {
         this.$store.state.showPlayer = true
       },
+      //显示播放列表
       showPlayList() {
         this.$store.dispatch('showPlayList', true)
       }

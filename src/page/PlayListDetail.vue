@@ -80,7 +80,7 @@
     data() {
       return {
         playlist: {},
-        playListPanel: [],
+        playListPanel: [], //存放播放列表
         loading: true
       }
     },
@@ -101,9 +101,11 @@
 //      歌单详情
       fetchSongList() {
         axios.get(`${url}/playlist/detail?id=${this.$route.params.id}`).then(res => {
+          //获取完毕隐藏loading
           this.loading = false
           this.playlist = res.data.playlist
           let songObj
+          //添加当前歌单到播放列表面板
           this.playlist.tracks.forEach((val) => {
             songObj = {
               id: val.id,
@@ -133,7 +135,7 @@
         function getLyric() {
           return axios.get(`${url}/lyric?id=${id}`)
         }
-
+        //获取歌曲信息，并统一存入vuex中
         axios.all([getUrl(), getDetail(), getLyric()])
           .then(axios.spread((res1, res2, res3) => {
             const arr = [res1, res2, res3]
@@ -144,6 +146,7 @@
           }))
       },
     },
+    //歌单播放次数过滤器
     filters: filters,
   }
 </script>

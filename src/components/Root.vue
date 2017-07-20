@@ -49,6 +49,7 @@
       })
     },
     methods: {
+      //切换标签，当前高亮
       switchTab(index) {
         this.cur = index
         switch (index) {
@@ -63,6 +64,7 @@
     },
     filters: {},
     watch: {
+      //路由切换动画
       $route(to,from) {
         const arr = ['home','index','social']
         const toIndex = arr.indexOf(to.path.split('/')[3])

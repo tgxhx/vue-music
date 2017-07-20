@@ -1,19 +1,5 @@
 <template>
   <div class="index">
-    <!--<ul class="index-tab">
-      <li>
-        <router-link to="/root/index/recommend"><md-button>Default</md-button></router-link>
-      </li>
-      <li>
-        <router-link to="/root/index/songlist">歌单</router-link>
-      </li>
-      <li>
-        <router-link to="/root/index/radio">主播电台</router-link>
-      </li>
-      <li>
-        <router-link to="/root/index/top">排行榜</router-link>
-      </li>
-    </ul>-->
     <md-button-toggle md-single class="index">
       <md-button class="md-toggle"  @click.native="indexTab('recommend')">个性推荐</md-button>
       <md-button @click.native="indexTab('songlist')">歌单</md-button>

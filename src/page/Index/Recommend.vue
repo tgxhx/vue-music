@@ -91,22 +91,26 @@
       })
     },
     methods: {
+      //获取banner图
       fetchBanner() {
         axios.get(`${url}/banner`).then(res => {
           this.banners = res.data.banners
         })
       },
+      //获取推荐歌单
       fetchRecommendList() {
         axios.get(`${url}/personalized`).then(res => {
           this.recommendList = res.data.result
         })
       },
+      //独家放送
       fetchDujia() {
         axios.get(`${url}/personalized/privatecontent`).then(res => {
           this.dujiaList = res.data.result
           this.dujiaList = this.dujiaList.reverse()
         })
       },
+      //点击获取歌单详情
       toSongListDetail(id, obj) {
         this.$router.push({path: '/playlistdetail/' + id})
         this.$store.dispatch('curPlaylistDetail',obj)

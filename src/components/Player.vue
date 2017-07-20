@@ -30,6 +30,7 @@
         <div class="record-cover">
           <div class="record-bg rotate-bg animated slideInRight">
             <div class="music-bg">
+              <!--判断curPlayMusic不为空-->
               <img :src="curPlayMusic.detail.al.picUrl" alt="" v-if="JSON.stringify(curPlayMusic) !== '{}'">
             </div>
           </div>
@@ -137,18 +138,21 @@
       })
     },
     methods: {
+      //播放
       play() {
         this.$refs.audio.play()
 //        this.timeProgress()
         this.$store.dispatch('switchPlaying', true)
 //        console.log(this.$store.state.playing)
       },
+//      暂停
       pause() {
         this.$refs.audio.pause()
 //        clearInterval(this.timer)
         this.$store.dispatch('switchPlaying', false)
 //        console.log(this.$store.state.playing)
       },
+      //audio的timeupdate事件触发
       timeProgress() {
         //拖动时不执行
         if (this.isMove) return
@@ -163,6 +167,7 @@
         /*}, 1000)*/
         this.updateLyric(audioid)
       },
+      //歌词滚动
       updateLyric(audioid) {
         let text_temp;
         let data = this.parsed
@@ -186,6 +191,7 @@
           text_temp = text;
         }
       },
+      //audio触发play事件，开始播放
       startPlay() {
         if (this.lyric.length <= 0) {
           return
@@ -194,6 +200,7 @@
         this.$store.dispatch('switchPlaying', true)
         this.setParsed()
       },
+      //audio触发ended事件，播放完毕
       ended() {
         this.$store.dispatch('switchPlaying', false)
         this.nextMusic()
@@ -297,12 +304,14 @@
           console.log(curTime)
         }
       },
+      //拖动进度条完毕
       moveProgressEnd(e) {
         this.isMove = false
         const pro = this.$refs.progress
         const curTime = (e.changedTouches[0].clientX - pro.offsetLeft) * pro.offsetWidth / this.allTime
         this.$refs.audio.currentTime = curTime
       },
+      //点击进度条更改播放进度
       touchProgress(e) {
         const curTime = (e.clientX - this.$refs.progress.offsetLeft) * this.$refs.progress.offsetWidth / this.allTime
         console.log(curTime)
@@ -310,6 +319,7 @@
       }
     },
     filters: {
+      //播放时间格式化
       timeFormat(value) {
         let min = parseInt(value / 60)
         let sec = parseInt(value % 60)
@@ -317,6 +327,7 @@
         sec = sec < 10 ? '0' + sec : sec
         return min + ':' + sec
       },
+      //评论总数大于999时显示999+
       commentTotalFormat(value) {
         if (parseInt(value) >= 1000) {
           return '999+'
