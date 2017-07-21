@@ -22,7 +22,7 @@
       </md-button>
     </md-toolbar>
     <transition :name="transitionName">
-      <keep-alive>
+      <keep-alive :include="/Test/">
         <router-view class="root-child-view"></router-view>
       </keep-alive>
     </transition>

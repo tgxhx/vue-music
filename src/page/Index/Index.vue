@@ -17,6 +17,7 @@
 <script type="text/ecmascript-6">
   import axios from 'axios'
   import {mapState} from 'vuex'
+//  import Recommend from 'Recommend.vue'
 
   export default {
     data() {
@@ -37,6 +38,9 @@
       indexTab(tab) {
         this.$router.push({path: `/root/index/${tab}`})
       }
+    },
+    components: {
+//      Recommend
     },
     filters: {},
     watch: {

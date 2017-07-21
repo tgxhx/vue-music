@@ -32,11 +32,13 @@ export default new Router({
       children: [
         {
           path: 'index',
+          name: 'Test',
           component: Index,
           redirect: 'index/recommend',
           children: [
             {
               path: 'recommend',
+              name: 'recommend',
               component: Recommend
             },
             {
