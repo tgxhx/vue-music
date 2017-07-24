@@ -40,17 +40,11 @@
       })
     },
     methods: {
+      //艺术家信息
       getArtist(key) {
         axios.get(`${url}/search?keywords=${key}&type=100`).then(res => {
           this.artists = res.data.result.artists
         })
-      },
-      touchStart(e) {
-        console.log(e.touches[0].pageX)
-        console.log(e.touches[0].pageY)
-      },
-      touchMove(e) {
-
       }
     },
     filters: {},

@@ -39,6 +39,7 @@
       })
     },
     methods: {
+      //点击播放
       getSong(key) {
         axios.get(`${url}/search?keywords=${key}`).then(res => {
           this.songs = res.data.result.songs

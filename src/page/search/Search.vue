@@ -38,6 +38,7 @@
           class="search-child-view"
           :search-key="searchKeyProps"
         ></router-view>
+        <!--通过props传递搜索词给搜索结果组件-->
       </keep-alive>
     </transition>
   </div>
@@ -74,6 +75,7 @@
       searchTab(tab) {
         this.$router.replace({path: `/search/${tab}`})
       },
+      //按键的时候搜索显示推荐内容
       searchData(e) {
         if (e.keyCode === 13) {
           this.toChild()
@@ -89,6 +91,7 @@
           })
         }
       },
+      //下拉搜索推荐点击播放
       playMusicFromSearch(id) {
         function getUrl() {
           return axios.get(`${url}/music/url?id=${id}`)
@@ -109,12 +112,14 @@
             this.$store.state.showPlayer = true
           }))
       },
+      //跳转到歌曲搜索结果页，由于通过props传递了搜索词，song组件会加载时就获取信息
       toChild() {
         this.$router.push({path: '/search/song'})
         this.searchKeyProps = this.searchKey
         this.showSuggest = false
         this.showSearchType = true
       },
+      //点击伪热搜词也会跳转到结果页
       searchHotKey(key) {
         this.searchKey = key
         this.toChild()

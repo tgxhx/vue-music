@@ -41,11 +41,13 @@
       })
     },
     methods: {
+      //获取歌单信息
       getList(key) {
         axios.get(`${url}/search?keywords=${key}&type=1000`).then(res => {
           this.list = res.data.result.playlists
         })
       },
+      //跳转到歌单详情页
       toSongListDetail(id, obj) {
         this.$router.push({path: '/playlistdetail/' + id})
         this.$store.dispatch('curPlaylistDetail',obj)

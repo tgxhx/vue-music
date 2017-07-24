@@ -32,6 +32,7 @@
       })
     },
     methods: {
+      //专辑组件
       getAlbum(key) {
         axios.get(`${url}/search?keywords=${key}&type=10`).then(res => {
           this.albums = res.data.result.albums

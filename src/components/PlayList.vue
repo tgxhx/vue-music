@@ -38,6 +38,7 @@
       ...mapGetters([
         'curId'
       ]),
+      //当前播放歌曲在播放列表中的索引
       curMusicIndexComputed() {
         if (this.playList.length > 0) {
           return this.playList.findIndex((ele) => {
@@ -57,6 +58,7 @@
       hideCover() {
         this.$store.dispatch('showPlayList', false)
       },
+      //点击获取歌曲播放信息
       playMusicFromList(id) {
         function getUrl() {
           return axios.get(`${url}/music/url?id=${id}`)
@@ -79,6 +81,7 @@
     },
     filters: {},
     watch: {
+      //监听当前歌曲在播放列表中的索引，改变就重新获取歌曲信息
       curMusicIndex(val, old) {
         this.playMusicFromList(this.playList[val].id)
         console.log(this.playList[val].id)

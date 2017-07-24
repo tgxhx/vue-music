@@ -108,13 +108,15 @@
       })
     },
     methods: {
+      //热门评论
       fetHotComment(id) {
         axios.get(`${url}/comment/music?id=${id}&limit=0`).then(res => {
           this.hotComments = res.data.hotComments
-          this.showLoading = false
+          this.showLoading = false //获取评论后隐藏loading
           this.total = res.data.total
         })
       },
+      //获取更多评论
       fetComment(id, offset) {
         axios.get(`${url}/comment/music?id=${id}&limit=20&offset=${offset}`).then(res => {
           this.comments = res.data.comments
@@ -124,12 +126,14 @@
       changeId() {
         this.$store.dispatch('commentId', 23212)
       },
+      //隐藏评论组件
       hideComment() {
         this.$store.state.showComment = false
       }
     },
     filters: {},
     watch: {
+      //监听评论id，改变时重新获取新歌曲评论
       commentId(val, old) {
         this.$store.state.showComment = true
         this.showLoading = true
@@ -139,23 +143,6 @@
       offset(val, old) {
         this.fetComment(commentId, val)
       },
-      showComment(val, old) {
-        if (val) {
-          const ele = this.$refs.comment
-          /*ele.addEventListener('scroll', () => {
-            const scrollTop = ele.scrollTop
-            const clientHeight = ele.clientHeight
-            const scrollHeight = ele.scrollHeight
-            if (scrollTop + clientHeight >= scrollHeight - 1) {
-              this.bottomLoading = true
-              this.fetComment(this.commentId, (this.offset)++)
-              console.log('到底')
-              /!*this.offset++*!/
-            }
-            console.log('scroll')
-          })*/
-        }
-      }
     }
   }
 </script>

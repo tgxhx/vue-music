@@ -1,6 +1,5 @@
 <template>
   <div class="bg-cover" :class="{hide:!showCover}" @touchmove.prevent @click="hideCover">
-
   </div>
 </template>
 
@@ -14,7 +13,7 @@
     },
     computed: {
       ...mapState([
-        'showCover'
+        'showCover'  //控制是否添加hide class，隐藏或显示
       ])
     },
     mounted() {
