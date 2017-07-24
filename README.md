@@ -1,23 +1,27 @@
-# vue-music
+# vue版网易云音乐
 
-> api：[api](https://binaryify.github.io/NeteaseCloudMusicApi/#/?id=%e5%ae%89%e8%a3%85)
+> api：ap使用的是一个开源的nodejs封装的网易云音乐api，[地址](https://binaryify.github.io/NeteaseCloudMusicApi/#/?id=%e5%ae%89%e8%a3%85)
 
-> [预览地址](http://39.108.14.248/music)（推荐用chrome的手机模式打开，在自己手机上测试会有歌曲无法播放的奇怪问题，待解决）
+> [预览地址](http://39.108.14.248/music)
 
-## Build Setup
+## 使用步骤
 
 ``` bash
-# install dependencies
+# 下载
+git clone git@github.com:tgxhx/vue-music.git
+
+# 安装依赖
 npm install
 
-# serve with hot reload at localhost:8080
+# 运行开发环境
 npm run dev
 
-# build for production with minification
+# 构建生产环境
 npm run build
 
-# build for production and view the bundle analyzer report
-npm run build --report
 ```
 
-For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+## 技术栈
+vue2 + vue-router2 + vuex + es6 + webpack + axios + scss + flex + [vue-material](https://github.com/vuematerial/vue-material)
+
+
