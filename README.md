@@ -56,3 +56,8 @@ npm run build
 - [x] 搜索推荐
 - [x] 搜索分类
 
+## 部分截图
+![](screen/1.png)![](screen/2.png)
+![](screen/3.png)![](screen/4.png)
+![](screen/5.png)![](screen/6.png)
+![](screen/7.png)
