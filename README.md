@@ -33,11 +33,13 @@ npm run build
  + [vue-material](https://github.com/vuematerial/vue-material)：一个Android上material design风格的组件库
 
 ## 说明
-1. 这个项目大小组件大概二十几个，目前还未完工，以后还会继续更新，目标是还原整个网易云音乐。
-2. 关于路由，刚开始设计路由的时候想了很多，由于一开始的目标就是网易云音乐的所有内容，所以设计了三级路由，/root/index/recommed，大概这样（虽然不知道什么时候能填完坑o(╯□╰)o）。
+1. 这个项目大小组件大概二十几个，目前还未完工，以后还会继续更新，目标是还原整个网易云音乐（虽然不知道什么时候能填完坑o(╯□╰)o）。
+2. 关于路由，刚开始设计路由的时候想了很多，由于一开始的目标就是网易云音乐的所有内容，所以设计了三级路由，/root/index/recommed，大概这样，[点击查看](https://github.com/tgxhx/vue-music/blob/e43c4975e42b93b6ccf5d8609687879a589d4d8f/src/router/index.js)。
 3. 关于体会，写到这个项目也算是对vue全家桶比较熟了，体会就是，不论是简单的复杂的项目，只要分割成一个个组件再拼起来，也没什么难的，组件之间通信又有vuex，也是非常简单的，总之就是熟能生巧。
-4. 关于难点，对于自己来说，audio标签以前没有接触过，有点麻烦，不过还算有相关文档；歌词滚动，部分歌曲还是有点问题，待解决。播放器背景图，这个当时考虑了很久，因为网易云音乐的播放器背景图就是当前歌曲的专辑图，还是模糊效果，最后实现方式是在当前组件的二级div设置当前歌曲的背景图，大小覆盖父元素，为防止第一次播放或者切歌的时候没有图，在组件的根元素也设置一张背景默认图，具体可以[点击查看](https://github.com/tgxhx/vue-music/blob/771218f2929de6b64a34c62597777a4fc0b6ed6e/src/components/Player.vue)
-5. 关于打包后的资源路径，比如要放在二级目录www.xxx.com/music，那么修改config/index.js中的assetsPublicPath: '/music/'即可
+4. 关于难点，对于自己来说，audio标签以前没有接触过，有点麻烦，不过还算有[相关文档](http://caibaojian.com/html5-audio.html)；歌词滚动，参考[这里](http://www.brafox.com/post/2015/HTML5/js%E8%A7%A3%E6%9E%90lrc%E6%AD%8C%E8%AF%8D-%E5%88%B6%E4%BD%9C%E6%BB%9A%E5%8A%A8%E6%AD%8C%E8%AF%8D.html)，部分歌曲还是有点问题，待解决;播放器背景图，这个当时考虑了很久，因为网易云音乐的播放器背景图就是当前歌曲的专辑图，还是模糊效果，最后实现方式是在当前组件的二级div设置当前歌曲的背景图，大小覆盖父元素，为防止第一次播放或者切歌的时候没有图，在组件的根元素也设置一张背景默认图，具体可以[点击查看](https://github.com/tgxhx/vue-music/blob/771218f2929de6b64a34c62597777a4fc0b6ed6e/src/components/Player.vue)；当前歌曲在播放列表中的索引获取，通过es5中数组的findIndex方法，找到当前歌曲的id在数组中的位置，具体可以[点击查看](https://github.com/tgxhx/vue-music/blob/e43c4975e42b93b6ccf5d8609687879a589d4d8f/src/components/PlayList.vue)。
+5. 关于打包后的资源路径，比如要放在二级目录www.xxx.com/music，那么修改config/index.js中的assetsPublicPath: '/music/'即可。
+6. 关于移动设备适配，我使用的是js动态设置html元素font-size的方式，页面元素使用rem，这样可达到在不同设备下显示内容基本一样的效果，具体可以[点击](https://segmentfault.com/a/1190000008721148)，使用方式比如width:100px;可以写成width:pr(100)。
+7. 关于图标，使用的是淘宝的iconfont字体图标方案，相比于使用图片图标有许多优势，比如任意缩放、改变颜色、响应式适配设备等等，具体可以参考[这篇文章](https://www.w3cplus.com/css3/icon-fonts.html)。
 
 
 ## 功能
@@ -45,12 +47,12 @@ npm run build
 - [x] 歌单详情
 - [x] 播放器
 - [x] 播放暂停
-- [x] 播放模式切歌
+- [x] 播放模式切歌（顺序和随机）
 - [ ] 歌词滚动（待修改）
 - [x] 歌曲拖动
-- [x] 播放底部背景
+- [x] 播放器底部背景
 - [x] 播放底栏
-- [x] 底栏歌曲同步
+- [x] 底栏歌词同步
 - [x] 播放列表
 - [x] 歌曲评论
 - [x] 搜索推荐
