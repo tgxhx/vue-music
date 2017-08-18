@@ -2,7 +2,7 @@
 
 > api：ap使用的是一个开源的nodejs封装的网易云音乐api，[地址](https://binaryify.github.io/NeteaseCloudMusicApi/#/?id=%e5%ae%89%e8%a3%85)
 
-> [预览地址](http://39.108.14.248/music)
+> [预览地址](http://39.108.14.248/music)（国外的服务器，估计有点慢）
 
 ## 使用步骤
 
@@ -23,9 +23,9 @@ npm run build
 
 ## 技术栈
  + vue2：基础框架
- + vue-router2：路由跳转 
+ + vue-router2：路由跳转
  + vuex：全局数据管理
- + es6：采用部分es6特性，大大简化了写法 
+ + es6：采用部分es6特性，大大简化了写法
  + webpack：vue-cli基于webpack，修改了部分配置
  + axios：基于Promise的http库，用来请求数据
  + scss：写起css来十分方便，需要安装sass-loader，另外使用自定义其中的自定义函数配合rem来适配移动端设备简直不要太方便
